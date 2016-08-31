@@ -1,0 +1,69 @@
+
+#bodyindex {
+    background-image: url(img/bg-index.jpg);
+    no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#header {
+    background-color: #475dbc;
+    
+    width: 100%;
+}
+
+#logo {
+    height: 100px;
+}
+
+.btmenu {
+    height: 100px;
+    clear: both;
+}
+
+#menuindex {
+    text-align: center;
+    margin: 150px auto;
+    width: 500px;
+}
+#formCreate {
+    width: 700px;
+    height: 600px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: white;
+   
+    
+}
+
+label.image-radio input[type="radio"]:checked + img{
+    border:1px solid blue;
+}
+
+
+
+#myDiagram {
+    
+    width:65%;
+    height:517px; 
+    float:left;
+    background-image: url(images/bgMyDiagram.png);
+   
+}
+
+#infoNode {
+   background-image: url(images/brown_notepaper_bg.JPG);
+    background-repeat: repeat;
+    width:34.5%;
+    height:517px;
+    float:right;
+}
+
+
+
+
+.form {
+    margin: 10%;
+}

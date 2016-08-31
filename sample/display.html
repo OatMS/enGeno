@@ -1,0 +1,161 @@
+<html>
+    <head>
+        
+        
+    <title>enGeno</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link href="CreateTestCss.css" rel="stylesheet" type="text/css" />  <!-- you don't need to use this -->
+          <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+          <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        
+        
+          <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  
+  
+  
+        
+          <meta charset="UTF-8">
+  <script src="go.js"></script>
+  <link href="../assets/css/goSamples.css" rel="stylesheet" type="text/css" />  <!-- you don't need to use this -->
+  <script src="goSamples.js"></script>  <!-- this is only for the GoJS Samples framework -->
+      <script src="enGeno.js"></script>
+  <script src="goSamples.js"></script>  <!-- this is only for the GoJS Samples framework -->
+      <script src="formControl.js"></script>
+
+    </head>
+        <body onload="setupForm()">
+            <div id="wrapper">
+
+        <header>
+            <div id="header">
+                <div id="logo"></div>
+            </div>    
+                    
+            <div id="processBar2"></div>
+        </header>
+        
+                <br>
+                <input id="file" type='file' accept='text/plain' onchange='openFile(event)'><br>
+        
+<div  id="sample">
+  <div ondblclick="dbClick()" id="myDiagram" > </div>
+  <div id="infoNode" >
+    
+
+     
+     
+     
+     <!------- Info Form ------------->
+      <div class="form" id="infoForm">
+         
+        <h2 style="">ข้อมูลสมาชิกครอบครัว</h2>
+        
+        <form readonly="readonly" >
+         <h3>ชื่อ   </h3>
+         
+         <input readonly="readonly" type="text" id="nameNode">
+         
+         <h3>โรค</h3>
+         
+         
+        </form>
+    
+     </div>
+     
+         
+    <!-- ----- edit Form ------------------->
+     <div class="form" id="editForm">
+         
+        <h2 style="">ข้อมูลสมาชิกครอบครัว</h2>
+        
+        <form  >
+         <h3>ชื่อ   </h3>
+         
+         <input type="text" id="nameNode">
+         
+         <h3>โรค</h3>
+         
+         <div class="col-md-6">
+         <input id="A"  type="checkbox" name="Attribute" value="A" >ภาวะซึมเศร้า<br>
+        <input id="B" type="checkbox" name="Attribute" value="B"> ภาวะโรคอ้วน<br>
+        <input id="C" type="checkbox" name="Attribute" value="C"> มะเร็ง<br>
+        <input id="D" type="checkbox" name="Attribute" value="D"> โรคหัวใจ<br>
+        <input id="E" type="checkbox" name="Attribute" value="E"> โรคความดันสูง<br>
+        <input id="F" type="checkbox" name="Attribute" value="F"> HIV / เอดส์<br>
+        </div>
+        
+        <div class="col-md-6">
+        
+        <input id="G" type="checkbox" name="Attribute" value="G">โรคตับอักเสบ<br>
+        <input id="H" type="checkbox" name="Attribute" value="H"> โรคเบาหวาน<br>
+        <input id="I" type="checkbox" name="Attribute" value="I"> โรคไขข้อ<br>
+        <input id="J" type="checkbox" name="Attribute" value="J"> ออทิสติก<br>
+        <input id="K" type="checkbox" name="Attribute" value="K">อัลไซเมอร์<br>
+        <input id="L" type="checkbox" name="Attribute" value="L"> โรคติดต่อทางเพศสัมพันธ์<br>
+        </div>
+        <input style="margin-top:50px;"  type="submit"  value="บันทึก">
+        </form>
+    
+     </div>
+      
+      
+  </div>
+  
+</div>
+
+        <section id="barForSymbol">
+            
+            <h9>Genogram Symbol</h9>
+            <br>
+            <br>
+            
+            <nav id="selectSymbol">
+                
+                    <ul>
+                    
+                    <div class="btn-group-vertical">
+                <button type="button" class="btn btn-info" width="849px" >Gender</button>
+                <button type="button" class="btn btn-info">Relation</button>
+                <button type="button" class="btn btn-info">Abuse</button>
+                <button type="button" class="btn btn-info">Addiction</button>
+                <button type="button" class="btn btn-info">Disease</button>
+                    </div>
+              
+          
+                </ul>
+                </nav>
+       </section><!--barForSymbol-->   
+        
+                <div class="btn-group btn-group-justified">
+                      <a href="#" class="btn btn-warning">ย้อนกลับ</a>
+                      <a href="#" class="btn btn-warning">บันทึก</a>
+                     
+                </div>
+                
+                <br><br>
+        
+            </div><!--wrapper-->
+        </body>
+    
+ 
+    
+</html>
+
+<script>
+   function displayNode(node){
+       var bar = document.getElementById("barForSymbol");
+       bar.innerHTML += node.data.n;
+   }
+
+
+</script>
