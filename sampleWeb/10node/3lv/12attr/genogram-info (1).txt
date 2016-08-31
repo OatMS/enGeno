@@ -1,0 +1,8 @@
+key:0,n:Aaron,s:M,cou:1,a:HIJKLMABCDFG
+key:1,n:Alice,s:F,a:HIJKLMABCDFG
+key:2,n:Bob,s:M,m:1,f:0,a:HIJKLMABCDFG
+key:3,n:newNode,s:F,m:1,f:0,a:HIJKLMABCDFG
+key:4,n:Spouse,cou:3,s:M,a:HIJKLMABCDFG
+key:5,n:newNode,s:F,m:3,f:4,a:HIJKLMABCDFG
+key:6,n:newNode,s:M,f:4,m:3,a:HIJKLMABCDFG
+key:7,n:newNode,s:F,f:4,m:3,a:HIJKLMABCDFG

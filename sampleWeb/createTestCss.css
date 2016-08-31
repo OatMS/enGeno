@@ -1,0 +1,25 @@
+
+#myDiagram {
+    height:517px; 
+    float:left;
+    background-image: url(images/bgMyDiagram.png);
+   
+}
+
+#infoNode {
+   background-image: url(images/brown_notepaper_bg.JPG);
+    background-repeat: repeat;
+    width:35.5%;
+    height:517px;
+    float:right;
+}
+
+
+
+.checkbox {
+   
+}
+
+.form {
+    margin: 10%;
+}

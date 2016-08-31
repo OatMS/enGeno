@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Genogram</title>
+  <!-- Copyright 1998-2015 by Northwoods Software Corporation. -->
+  <meta charset="UTF-8">
+  <script src="go.js"></script>
+  <link href="../assets/css/goSamples.css" rel="stylesheet" type="text/css" />  <!-- you don't need to use this -->
+  <script src="goSamples.js"></script>  <!-- this is only for the GoJS Samples framework -->
+      <script src="createTestJs.js"></script>
+       <script id="code">
+      var test=11111;
+           
+           
+           
+      
+    // end GenogramLayout class
+  </script>
+</head>
+<body >
+
+    
+    
+       <input id="file" type='file' accept='text/plain' onchange='openFile(event)'><br>
+       <input type="button" value="Refesh" onclick="changeData()">
+
+<div  id="sample">
+  <div ondblclick="dbClick()" id="myDiagram" style="border: solid 1px blue; width:100%; height:600px"> </div>
+  
+  
+  <p>The node data representing the people, processed by the <code>setupDiagram</code> function:</p>
+ 
+ 
+ 
+ 
+  The properties are:
+  <ul>
+    <li><b>key</b>, the unique ID of the person</li>
+    <li><b>n</b>, the person's name</li>
+    <li><b>s</b>, the person's sex</li>
+    <li><b>m</b>, the person's mother's key</li>
+    <li><b>f</b>, the person's father's key</li>
+    <li><b>ux</b>, the person's wife</li>
+    <li><b>vir</b>, the person's husband</li>
+    <li><b>a</b>, an Array of the attributes or markers that the person has</li>
+  </ul>
+  There are functions that convert an attribute value into a brush color or Shape geometry,
+  to be added to the Node representing the person.
+  <p>A custom <a>LayeredDigraphLayout</a> does the layout, assuming there is a central person whose mother and father
+  each have their own ancestors.  In this case we focus on "Bill", but any of the children of "Alice" and "Aaron" would work.</p>
+</div>
+</body>
+
+
+
+</html>

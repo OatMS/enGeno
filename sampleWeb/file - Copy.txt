@@ -1,0 +1,5 @@
+key:1,s:F,m:2
+key:2,s:F,cou:3
+key:3,s:M
+key:4,s:F,m:2,f:3
+key:5,s:M,cou:4

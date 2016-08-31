@@ -1,0 +1,10 @@
+key:0,n:Aaron,s:M,cou:1,a:ABCDFG
+key:1,n:Alice,s:F,a:ABCDFG
+key:2,n:Bob,s:M,m:1,f:0,a:ABCDFG
+key:3,n:Spouse,cou:2,s:F,a:ABCDFG
+key:4,n:newNode,s:F,f:2,m:3,a:ABCDFG
+key:5,n:Spouse,cou:4,s:M,a:ABCDFG
+key:6,n:newNode,s:M,m:4,f:5,a:ABCDFG
+key:7,n:Spouse,cou:6,s:F,a:ABCDFG
+key:8,n:newNode,s:F,f:6,m:7,a:ABCDFG
+key:9,n:newNode,s:F,m:4,f:5,a:ABCDFG

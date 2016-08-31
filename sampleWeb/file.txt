@@ -1,0 +1,5 @@
+key:1,n:Eve,s:F,m:2,a:BHS
+key:2,n:Mom,s:F,cou:3,a:CGK
+key:3,n:Dad,s:M,a:AELS
+key:4,n:Ever,s:F,m:2,f:3,a:BH
+key:5,n:Ever,s:M,cou:4
