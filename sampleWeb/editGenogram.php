@@ -96,9 +96,9 @@ else{
      <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
    <!-- you don't need to use this -->
-  <script src="goSamples.js"></script>  <!-- this is only for the GoJS Samples framework -->
+  <!-- <script src="goSamples.js"></script> -->
       <script src="enGeno.js"></script>
-  <script src="goSamples.js"></script>  <!-- this is only for the GoJS Samples framework -->
+  <!-- <script src="goSamples.js"></script>  -->
       <script src="formControl.js"></script>
 
 </head>
@@ -274,7 +274,7 @@ else{
      </div>
 
 
-    <!-- ----- edit Form ------------------->
+    <!-- ------------ edit Form ------------------->
      <div class="form" id="editForm" hidden>
 
         <h2 style="">ข้อมูลสมาชิกครอบครัว</h2>
