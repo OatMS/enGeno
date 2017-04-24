@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Genogram</title>
+<meta name="description" content="A genogram is a family tree diagram for visualizing hereditary patterns." />
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+  <!-- Copyright 1998-2017 by Northwoods Software Corporation. -->
+  <meta charset="UTF-8">
+  <script src="release/go.js"></script>
+  <script src="enGenoLibrary/enGeno.js"></script>
+
+</head>
+<body >
+<div style="width: 600px; height: 400px; border: 1px solid black;" class="" id="myDiagram"  >
+</div>
+<!-- ******************* Context Node *********** --> 
+<!-- sep -->
+<nav id="context-menu" class="context-menu">
+    <ul class="context-menu__items">
+      <li class="context-menu__item">
+        <a href="#" class="context-menu__link" data-action="View" onclick="diagramAddSon()"><i class="fa fa-eye"></i> Add Son</a>
+      </li>
+      <li class="context-menu__item">
+        <a href="#" class="context-menu__link" data-action="Edit" onclick="diagramAddDaughter()"><i class="fa fa-edit"></i> Add Daughter</a>
+      </li>
+      <li class="context-menu__item">
+        <a href="#" class="context-menu__link" data-action="Delete"  onclick="diagramDeleteNode()"><i class="fa fa-times"></i> Delete Node</a>
+      </li>
+      <li class="context-menu__item">
+        <a href="#" class="context-menu__link" data-action="Delete"  onclick="diagramUndo()"><i class="fa fa-times"></i> Undo</a>
+      </li>
+    </ul>
+  </nav>
+</body>
+</html>
+
+<script type="text/javascript">
+var myDiagram;
+
+//------------------------css menu bar--------------------
+(function ($) {
+    $(document).ready(function () {
+
+        $('#cssmenu li.active').addClass('open').children('ul').show();
+        $('#cssmenu li.has-sub>a').on('click', function () {
+            $(this).removeAttr('href');
+            var element = $(this).parent('li');
+            if (element.hasClass('open')) {
+                element.removeClass('open');
+                element.find('li').removeClass('open');
+                element.find('ul').slideUp(200);
+            } else {
+                element.addClass('open');
+                element.children('ul').slideDown(200);
+                element.siblings('li').children('ul').slideUp(200);
+                element.siblings('li').removeClass('open');
+                element.siblings('li').find('li').removeClass('open');
+                element.siblings('li').find('ul').slideUp(200);
+
+
+
+            }
+        });
+
+    });
+})(jQuery);
+
+
+//---------------end css menu bar--------------
+
+
+
+
+
+var clickCount = 0;
+var JsonData = [
+    {
+        key: 1,
+        n: "Eve",
+        s: "F",
+        m: 2,
+        a: "BHS"
+    },
+    {
+        key: 2,
+        n: 'Mom',
+        s: 'F',
+        cou: 3,
+        a: "CGK"
+    },
+    {
+        key: 3,
+        n: "Dad",
+        s: 'M',
+        a: "AELS"
+    },
+    {
+        key: 4,
+        n: "Ever",
+        s: "F",
+        m: 2,
+        f: 3,
+        a: "BH"
+    },
+    {
+        key: 5,
+        n: 'Ever',
+        s: 'M',
+        cou: 4
+    }
+];
+var Form, editForm, infoForm;
+var firstClick = true;
+/*
+function openFile(event) {
+    alert(event.target.files[0]);
+    var myDiagram = new enGeno(JsonData, "myDiagram");
+
+}
+*/
+function createDi(usrdata) {
+    // alert('on create Di');
+
+    myDiagram = new enGeno(usrdata, "myDiagram");
+    myDiagram.init();
+    //  myDiagram.addNode();
+       setInfoForm();
+
+}
+
+function downloadTxtFile(){
+    var link = document.getElementById("download-txt");
+    link.href = this.myDiagram.export();
+}
+
+function downloadImage(){
+     var link = document.getElementById('download-img');
+    var img = this.myDiagram.makeImage();
+    link.href = img.src;
+}
+//************ context function **********
+function contextFunction(e,obj){
+    var text = obj.elt(1).text;
+        var sel = this.myDiagram.getSelectedNodes();
+    if(text == "add daughter"){
+    for(var i=0;i<sel.length;i++){
+        this.myDiagram.addDaughter(sel[i]);
+    }}
+    else if(text == "add spouse"){
+    for(var i=0;i<sel.length;i++){
+        this.myDiagram.addSpouse(sel[i]);
+    }}
+    else if(text == "add son"){
+    for(var i=0;i<sel.length;i++){
+        this.myDiagram.addSon(sel[i]);
+    }}
+    
+    else if(text == "remove Node"){
+    for(var i=0;i<sel.length;i++){
+        this.myDiagram.removeNode(sel[i]);
+    }}
+    
+}
+
+//**************end context *********
+
+function setupForm() {
+    Form = document.getElementById("infoNode");
+    editForm = document.getElementById("editForm");
+    infoForm = document.getElementById("infoForm");
+    // Form.removeChild(editForm);
+    Form.removeChild(infoForm);
+}
+
+
+function clickNode(ctrl, node) {
+
+  //  var node = this.myDiagram.getSelectedNode();
+   // console.log(node[0].data.key);
+
+
+    //this.myDiagram.filter("AB");
+
+//this.myDiagram.addSpouse(node);
+diagramAddSon();
+    //console.log(this.myDiagram.genKey());
+
+  //  var arrCou = this.myDiagram.findMarriageArray(node.data.key); //console.log(JSON.stringify(arrCou));
+
+    //addSon
+ //this.myDiagram.addSon(node);
+ //this.myDiagram.export();
+ //   this.myDiagram.removeNode(node);
+    //***********for open file ********
+  ///  var aaa = this.myDiagram.getOriginalArray();
+  ///  console.log(JSON.stringify(aaa["5"]));
+
+//this.myDiagram.getDataNodeToNewArray();
+
+
+   //.myDiagram.addDaughter(node);
+  //  this.myDiagram.load();
+console.log(this.myDiagram.findMarriageArray(node.data.key));
+   // var newNode = {key:23 ,m:22,f:21,s:'F',a:'ABC'};
+  //  this.myDiagram.addNode(newNode);
+  setInfoForm();
+
+}
+
+
+
+function search(){
+    var keyword = document.getElementById("keyword");
+     var arrResult = this.myDiagram.searchByKeyWord(keyword.value);
+    console.log("arrResult = "+arrResult.length);
+
+}
+
+
+
+function clickDiagram() {
+  //this.myDiagram.undoDiagram();
+   // this.myDiagram.setupRelationship();
+   // this.myDiagram.load();
+   // setInfoForm();
+    //this.myDiagram.makeImage();
+    downloadImage();
+}
+
+
+function resetClick() {
+    selectedNode = [];
+}
+
+function doubleClickNode(e, b) {
+    var node = b;
+   // var n = prompt("Name : ", node.data.n);
+ //  myDiagram.editNodeData(node, {"n": n,a: ["A", "B", "C", "D"] });
+
+    //test addChile and data
+    //   var data = {key:10,n:"Hello",a:"ACFH"}
+    //   this.myDiagram.addDaughter(node,data);
+
+    //test find and add Node
+    //  var nodeFound = myDiagram.findNode(3);
+    //  myDiagram.addSon(node,nodeFound);
+
+    //test deleteNode
+    // var nodeFound = myDiagram.findNode(5);
+    //myDiagram.removeNode(nodeFound);
+
+    //test changNode
+    /*
+    var nodeFound = myDiagram.findNode(1);
+    if (nodeFound !=
+    'undefine') {
+    myDiagram.changeNodeData(nodeFound, {
+            key: 8,
+            n: "HELLO",
+            s: "F"
+        });
+    }
+    else {
+         console.log("cannot find node");
+    }
+    */
+  // this.myDiagram.addSon(node);
+
+
+}
+
+
+
+
+function editNode(e, b) {
+    //var node = b.part.adornedPart;
+    var node = b;
+    if (!firstClick) {
+        Form.removeChild(infoForm);
+    }
+
+    Form.appendChild(editForm);
+
+
+    e = window.event;
+
+
+    var nameText = document.getElementById("nameNode");
+    nameText.value = node.data.n;
+    var attribute = document.getElementsByName("Attribute");
+
+    for (var i = 0; i < attribute.length; i++) {
+        attribute[i].checked = false;
+    }
+
+    for (var i = 0; i <= node.data.a.length; i++) {
+        var checkbox = document.getElementById(node.data.a[i]);
+
+        checkbox.checked = true;
+    }
+
+    var node = b.part.adornedPart.data;
+    var newName = prompt("Name : ", b.part.adornedPart.data.n);
+
+
+    myDiagram.model.startTransaction("modified Node")
+    myDiagram.model.setDataProperty(node, "n", newName);
+    myDiagram.model.commitTransaction("modified Node");
+
+}
+
+function getNameAttr(a){
+    switch(a){
+            case'A':return "ภาวะซึมเศร้า";break;
+            case'B':return "ภาวะโรคอ้วน";break;
+            case'C':return "โรคหัวใจ" ; break;
+            case'D':return "มะเร็ง" ;break;
+            case'E':return "โรคความดันสูง" ;break;
+            case'F':return "HIV/เอดส์" ;break;
+            case'G':return "โรคตับอักเสบ" ;break;
+            case'H':return "โรคเบาหวาน" ;break;
+            case'I':return "โรคไขข้อ" ;break;
+            case'J':return "ออทิสติก" ;break;
+            case'K':return "อัลไซเมอร์" ;break;
+            case'L':return "โรคติดต่อทางเพศสัมพันธ์" ;break;
+            case'S':return "เสียชีวิตแล้ว" ;break;
+        default: return "";
+    }
+}
+
+
+//********** set info form************
+function setInfoForm(){
+     var nodeSelect =   this.myDiagram.getSelectedNodes();
+    var nameText = document.getElementById("nameText");
+    var genderText = document.getElementById("genderText");
+    var infoForm = document.getElementById("infoForm");
+    var diseases = document.getElementById("diseases");
+    var attr = document.getElementById("attr");
+    var  nodeimg = document.getElementById("nodeimg");
+
+    var  attrimg1 = document.getElementById("attrimg1");
+    var  attrimg2 = document.getElementById("attrimg2");
+    var  attrimg3 = document.getElementById("attrimg3");
+    var  attrimg4 = document.getElementById("attrimg4");
+    var attrimg = [attrimg1,attrimg2,attrimg3,attrimg4];
+
+    //set all attrimg to white when click other node
+    for(var i=0;i<4;i++){
+        attrimg[i].style.backgroundColor = "#FFFFFF";
+    }
+
+
+    function attrFill(a) {
+
+                switch (a.attr) {
+                    case "A":
+                        return "#0000FE";
+                    case "B":
+                        return "#FF00FF";
+                    case "C":
+                        return "#FE0000";
+                    case "D":
+                        return "#C00000";
+                    case "E":
+                        return "#C00000";
+                    case "F":
+                        return "#FFC000";
+                    case "G":
+                        return "#01FF00";
+                    case "H":
+                        return "#800080";
+                    case "I":
+                        return "#939FBB";
+                    case "J":
+                        return "#01FFFF";
+                    case "K":
+                        return "#359AFF";
+                    case "L":
+                        return "#FFFF00";
+                    case "S":
+                        return "red";
+                    default:
+                        return "transparent";
+                }
+        }
+
+
+    if(nodeSelect.length > 0){
+        nameText.innerHTML = nodeSelect[0].data.n;
+
+        if(nodeSelect[0].data.s == 'F'){
+            genderText.innerHTML = "หญิง";
+            nodeimg.src = "img/femalenode.png";
+        }else{
+            genderText.innerHTML = "ชาย";
+            nodeimg.src = "img/malenode.png";
+        }
+        attr.innerHTML ="";
+
+        if(nodeSelect[0].data.a){
+           // alert(JSON.stringify(nodeSelect[0].data));
+            diseases.style.visibility='visible';
+             var rip = false;
+            for(var i =0 ; i<nodeSelect[0].data.a.length;i++){
+                var ai = nodeSelect[0].data.a[i];
+
+                if(ai == 'S'){
+                    rip =true;
+                }
+                else{
+                    attr.innerHTML += '<p>• '+getNameAttr(ai)+'</p></br>';
+                    if(i<4){
+                    attrimg[i].style.backgroundColor = attrFill(ai);
+                }
+                    }
+            }
+            if(rip){
+                attr.innerHTML += '<br><p> สถานะ : '+getNameAttr(ai)+'</p></br>';
+
+            }
+        }
+        else{
+            diseases.style.visibility='hidden';
+            attr.innerHTML ="";
+        }
+    }else{
+        nameText.innerHTML ="";
+        genderText.innerHTML="";
+        attr.innerHTML ="";
+
+    }
+
+    var attr = nodeSelect[0].data.aobj;
+    //setimg attr
+
+        if(attr){
+           // alert(JSON.stringify(nodeSelect[0].data));
+
+            for(var i =0 ; i<attr.length;i++){
+                var ai = attr[i].attr;
+
+                if(ai == 'S'){
+                    rip =true;
+                }
+                else{
+
+                    if(i<4){
+                    attrimg[i].style.backgroundColor = attrFill(attr[i]);
+                }
+                    }
+            }
+            if(rip){
+              //  attr.innerHTML += '<br><p> สถานะ : '+getNameAttr(ai)+'</p></br>';
+
+            }
+
+    }else{
+   //     nameText.innerHTML ="";
+       // genderText.innerHTML="";
+     //   attr.innerHTML ="";
+
+    }
+
+}
+
+function setFilter(){
+    var attribute = document.getElementsByName("Attribute");
+    var str ="";
+    for (var i = 0; i < attribute.length; i++) {
+        if(attribute[i].checked == true){
+            str +=attribute[i].value;
+        }
+    }
+    if(attribute.length ==0){
+        this.myDiagram.filter();
+    }
+    else this.myDiagram.filter(str);
+}
+
+
+
+
+
+
+</script>
+
+
+
+
+<!-- --------------------------------------------- -->
+
+
+
+<script>
+
+   function genGramFormFile(){
+       console.log('Gen Gram Form data');
+
+       var data = getUrlVars()["data"];
+      // var data = $_GET("data");
+      // alert(typeof data);
+
+       data =  decodeURI(data);
+        data =  decodeURIComponent(data);
+        data = data.replace("+","");
+        data = data.slice(1,-1);
+       console.log(data);
+       data = JSON.parse(data);
+      // alert(data);
+       console.log(data);
+
+        createDi(data);
+   }
+
+    function fakeData(){
+        var data = [
+    { key: 0, n: "Aaron", s: "M",  cou: 1, a: ["C", "F", "K"],age:20},
+    { key: 1, n: "Alice", s: "F",  a: ["B", "H", "K"] ,age:45},
+    { key: 2, n: "Bob", s: "M", m: 1, f: 0, cou: 3, a: ["C", "H", "L"] },
+    { key: 3, n: "Barbara", s: "F", a: ["C"] },
+    { key: 4, n: "Bill", s: "M", m: 1, f: 0, cou: 5, a: ["E", "H"] },
+    { key: 5, n: "Brooke", s: "F", a: ["B", "H", "L"] },
+    { key: 6, n: "Claire", s: "F", m: 1, f: 0, a: ["C"] },
+    { key: 7, n: "Carol", s: "F", m: 1, f: 0, a: ["C", "I"] },
+    { key: 8, n: "Chloe", s: "F", m: 1, f: 0, cou: 9, a: ["E"] },
+    { key: 9, n: "Chris", s: "M", a: ["B", "H"] },
+    { key: 10, n: "Ellie", s: "F", m: 3, f: 2, a: ["E", "G"] },
+    { key: 11, n: "Dan", s: "M", m: 3, f: 2, a: ["B", "J"] },
+    { key: 12, n: "Elizabeth", s: "F", cou: 13, a: ["J"] },
+    { key: 13, n: "David", s: "M", m: 5, f: 4, a: ["B", "H"] },
+    { key: 14, n: "Emma", s: "F", m: 5, f: 4, a: ["E", "G"] },
+    { key: 15, n: "Evan", s: "M", m: 8, f: 9, a: ["F", "H"] },
+    { key: 16, n: "Ethan", s: "M", m: 8, f: 9, a: ["D", "K", "S"] },
+    { key: 17, n: "Eve", s: "F", cou: 16, a: ["B", "F", "L", "S"],age:12 },
+    { key: 18, n: "Emily", s: "F", m: 8, f: 9,age:56 },
+    { key: 19, n: "Fred", s: "M", m: 17, f: 16, a: ["B"] },
+    { key: 20, n: "Faith", s: "F", m: 17, f: 16, a: ["L"] },
+    { key: 21, n: "Felicia", s: "F", m: 12, f: 13, a: ["H"] },
+    { key: 22, n: "Frank", s: "M", m: 12, f: 13, a: ["B", "H"] }
+
+
+];
+        createDi(data);
+    }
+
+
+    function getUrlVars() {
+var vars = {};
+var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+vars[key] = value;
+});
+return vars;
+}
+
+    function setdata(){
+        var attr ="<? echo $_GET['attr'] ?>";
+        attr = attr.split("");
+        var userdata =[{n: "<? echo $_GET['name']; ?>",
+                        key:1,m:2,f:3,
+                        s: "<? echo $_GET['gender'] ?>",
+                        a: attr,
+                    },
+                    //mother
+                    {
+                        key:2,n:"แม่",s:"F",cou:3
+                    },
+                    //father
+                    {
+                        key:3,n:"พ่อ",s:"M",cou:2
+                    }
+                        ];
+
+        createDi(userdata);
+    }
+
+
+
+
+    //***************Context JS********************
+
+(function() {
+  
+  "use strict";
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //
+  // H E L P E R    F U N C T I O N S
+  //
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Function to check if we clicked inside an element with a particular class
+   * name.
+   * 
+   * @param {Object} e The event
+   * @param {String} className The class name to check against
+   * @return {Boolean}
+   */
+  function clickInsideElement( e, className ) {
+    var el = e.srcElement || e.target;
+    
+    if ( el.classList.contains(className) ) {
+      return el;
+    } else {
+      while ( el = el.parentNode ) {
+        if ( el.classList && el.classList.contains(className) ) {
+          return el;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Get's exact position of event.
+   * 
+   * @param {Object} e The event passed in
+   * @return {Object} Returns the x and y position
+   */
+  function getPosition(e) {
+    var posx = 0;
+    var posy = 0;
+
+    if (!e) var e = window.event;
+    
+    if (e.pageX || e.pageY) {
+      posx = e.pageX;
+      posy = e.pageY;
+    } else if (e.clientX || e.clientY) {
+      posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+      posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    }
+
+    return {
+      x: posx,
+      y: posy
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //
+  // C O R E    F U N C T I O N S
+  //
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  
+  /**
+   * Variables.
+   */
+  var contextMenuClassName = "context-menu";
+  var contextMenuItemClassName = "context-menu__item";
+  var contextMenuLinkClassName = "context-menu__link";
+  var contextMenuActive = "context-menu--active";
+
+  var taskItemClassName = "task";
+  var taskItemInContext;
+
+  var clickCoords;
+  var clickCoordsX;
+  var clickCoordsY;
+
+  var menu = document.querySelector("#context-menu");
+  var menuItems = menu.querySelectorAll(".context-menu__item");
+  var menuState = 0;
+  var menuWidth;
+  var menuHeight;
+  var menuPosition;
+  var menuPositionX;
+  var menuPositionY;
+
+  var windowWidth;
+  var windowHeight;
+
+  /**
+   * Initialise our application's code.
+   */
+  function init() {
+    contextListener();
+    clickListener();
+    keyupListener();
+    resizeListener();
+  }
+
+  /**
+   * Listens for contextmenu events.
+   */
+  function contextListener() {
+    document.addEventListener( "contextmenu", function(e) {
+      taskItemInContext = clickInsideElement( e, taskItemClassName );
+
+      if ( taskItemInContext ) {
+        e.preventDefault();
+        toggleMenuOn();
+        positionMenu(e);
+      } else {
+        taskItemInContext = null;
+        toggleMenuOff();
+      }
+    });
+  }
+
+  /**
+   * Listens for click events.
+   */
+  function clickListener() {
+    document.addEventListener( "click", function(e) {
+      var clickeElIsLink = clickInsideElement( e, contextMenuLinkClassName );
+
+      if ( clickeElIsLink ) {
+        e.preventDefault();
+        menuItemListener( clickeElIsLink );
+      } else {
+        var button = e.which || e.button;
+        if ( button === 1 ) {
+          toggleMenuOff();
+        }
+      }
+    });
+  }
+
+  /**
+   * Listens for keyup events.
+   */
+  function keyupListener() {
+    window.onkeyup = function(e) {
+      if ( e.keyCode === 27 ) {
+        toggleMenuOff();
+      }
+    }
+  }
+
+  /**
+   * Window resize event listener
+   */
+  function resizeListener() {
+    window.onresize = function(e) {
+      toggleMenuOff();
+    };
+  }
+
+  /**
+   * Turns the custom context menu on.
+   */
+  function toggleMenuOn() {
+    if ( menuState !== 1 ) {
+      menuState = 1;
+      menu.classList.add( contextMenuActive );
+    }
+  }
+
+  /**
+   * Turns the custom context menu off.
+   */
+  function toggleMenuOff() {
+    if ( menuState !== 0 ) {
+      menuState = 0;
+      menu.classList.remove( contextMenuActive );
+    }
+  }
+
+  /**
+   * Positions the menu properly.
+   * 
+   * @param {Object} e The event
+   */
+  function positionMenu(e) {
+    clickCoords = getPosition(e);
+    clickCoordsX = clickCoords.x;
+    clickCoordsY = clickCoords.y;
+
+    menuWidth = menu.offsetWidth + 4;
+    menuHeight = menu.offsetHeight + 4;
+
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
+
+    if ( (windowWidth - clickCoordsX) < menuWidth ) {
+      menu.style.left = windowWidth - menuWidth + "px";
+    } else {
+      menu.style.left = clickCoordsX + "px";
+    }
+
+    if ( (windowHeight - clickCoordsY) < menuHeight ) {
+      menu.style.top = windowHeight - menuHeight + "px";
+    } else {
+      menu.style.top = clickCoordsY + "px";
+    }
+  }
+
+  /**
+   * Dummy action function that logs an action when a menu item link is clicked
+   * 
+   * @param {HTMLElement} link The link that was clicked
+   */
+  function menuItemListener( link ) {
+    console.log( "Task ID - " + taskItemInContext.getAttribute("data-id") + ", Task action - " + link.getAttribute("data-action"));
+    toggleMenuOff();
+  }
+
+  /**
+   * Run the app.
+   */
+  init();
+
+})();
+
+//----------------------------
+fakeData()
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

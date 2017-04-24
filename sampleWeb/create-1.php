@@ -84,7 +84,7 @@
                 <input id="K" type="checkbox" name="Attribute[]" value="K">อัลไซเมอร์
                 <br>
                 <input id="L" type="checkbox" name="Attribute[]" value="L"> โรคติดต่อทางเพศสัมพันธ์
-                <br><br><br><br>
+                
             </div>
             <input src="img/mockup/next-button.PNG" type="image" alt="submit" style="float:right;" >
             <a href="index.php"><img style="float:left;" src="img/mockup/home-button.PNG"></a>
