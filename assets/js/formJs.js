@@ -89,8 +89,15 @@
         	}if(this.disease.length>3){
         		this.attr4Style.backgroundColor = this.attrFill(this.disease[3])
         	}
-        }
+        },
+        gotoEditDiagram(){
+        	var data = []
+        	data.push({key:0,n:this.name,s:this.gender,age:parseInt(this.age),f:1,m:2,a:this.disease})
+        	data.push({key:1,n:"พ่อ",s:"M",cou:2})
+        	data.push({key:2,n:"แม่",s:"F",cou:1})
+        	console.log(data)
 
+        }
     },
     mounted(){
     	var current_fs, next_fs, previous_fs; //fieldsets

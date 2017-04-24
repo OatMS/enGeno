@@ -26,20 +26,20 @@
 		<!-- <h3 class="fs-subtitle">This is step 1</h3> -->
 
 		<div class="form-group row">
-		<label style="margin-top: 10px;" for="example-text-input" class="col-md-2 col-sm-2 col-form-label">ชื่อผู้ป่วย</label>
+		<label style="margin-top: 10px; text-align: : right;" for="example-text-input" class="col-md-2 col-sm-2 col-form-label">ชื่อผู้ป่วย :</label>
 			<div class="col-md-5 col-sm-5">
 				<input style=""class="form-control" v-model="name"  type="text" placeholder="ชื่อผู้ป่วย" placeholder="0">
 			</div>
 		</div>
 		<div class="form-group row">
-		<label style="margin-top: 10px;" for="example-text-input" class="col-md-2 col-sm-2 col-form-label">อายุ</label>
+		<label style="margin-top: 10px; text-align: : right;" for="example-text-input" class="col-md-2 col-sm-2 col-form-label">อายุ :</label>
 			<div class="col-md-1 col-sm-1">
 				<input style="width: 80px;"  class="form-control" type="number" min="0" v-model="age"  placeholder="0">
 			</div>
 			<label style="padding: 0; margin-left: 15px; margin-top: 10px; " for="example-text-input" class="col-md-1 col-sm-1 col-form-label">ปี</label>
 		</div>
 		<div class="form-group row">
-			<label for="example-text-input" class="col-md-2 col-sm-2 col-form-label">เพศ</label>
+			<label style="text-align: : right;" for="example-text-input" class="col-md-2 col-sm-2 col-form-label">เพศ :</label>
 			<div class="col-md-5 col-sm-5">
 				<label style="float: left;" class="radio-inline">
 					<input v-model="gender" value="M"  type="radio" name="gender">
@@ -145,7 +145,8 @@
            		 <div id="attrimg3" v-bind:style="attr3Style"></div>
             	<div id="attrimg4" v-bind:style="attr4Style"></div>
 
-            	<img src="img/malenode.png" id="nodeimg" style="position: absolute; top:0px; left:0px;">
+            	<img v-if="gender=='M'" src="img/malenode.png" id="nodeimg" style="position: absolute; top:0px; left:0px;">
+            	<img v-if="gender=='F'" src="img/femalenode.png" id="nodeimg" style="position: absolute; top:0px; left:0px;">
         </div>
             </div>
         </div>
@@ -260,7 +261,7 @@
 		
 
 		<input style="float: left;" type="button" name="previous" class="previous action-button" value="กลับ" />
-		<input style="float: right;" type="submit" name="submit" class="submit action-button" value="เสร็จสิ้น" />
+		<input style="float: right;" type="submit" name="submit" class="submit action-button" @click="gotoEditDiagram" value="เสร็จสิ้น" />
 	</fieldset>
 </form>
 </div>
@@ -276,5 +277,5 @@
 <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="assets/js/vue.js"></script>
-<script type="text/javascript" src="assets/js/webJs.js"></script>
+<script type="text/javascript" src="assets/js/formJs.js"></script>
 
