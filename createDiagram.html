@@ -62,37 +62,37 @@
 		<!-- <h4 class="fs-subtitle">(เรียงลำดับความสำคัญ)</h4> -->
 		<div class="disease" style="margin-bottom: 250px;">
 		 <div class="col-md-4">
-                <label class="checkbox-inline" ><input  id="A" type="checkbox" name="disease" v-model="disease" value="A">
+                <label class="checkbox-inline"  ><input  id="A" type="checkbox" name="disease" v-model="disease" @click="fillColorForm" value="A">
                 	<span   class="checkbox-label">ภาวะซึมเศร้า
                 	</span>
                 </label>
                 <br >
                 <label class="checkbox-inline" >
-                <input id="B" type="checkbox" name="disease" v-model="disease" value="B"> 
+                <input id="B" @click="fillColorForm" type="checkbox" name="disease" v-model="disease" value="B"> 
                 	<span class="checkbox-label">ภาวะโรคอ้วน
                 	</span>
                 </label>
                 <br>
                 <label class="checkbox-inline" >
-                <input id="C" type="checkbox" name="disease" v-model="disease" value="C"> 
+                <input id="C" @click="fillColorForm" type="checkbox" name="disease" v-model="disease" value="C"> 
                 	<span class="checkbox-label">มะเร็ง
                 	</span>
                 </label>
                 <br>
                 <label class="checkbox-inline" >
-                <input id="D" type="checkbox" name="disease"  v-model="disease" value="D"> 
+                <input id="D" @click="fillColorForm" type="checkbox" name="disease"  v-model="disease" value="D"> 
                 	<span class="checkbox-label">โรคหัวใจ
                 	</span>
                 </label>
                 <br>
                 <label class="checkbox-inline" >
-                <input id="E" type="checkbox" name="disease"  v-model="disease" value="E"> 
+                <input id="E" @click="fillColorForm" type="checkbox" name="disease"  v-model="disease" value="E"> 
                 	<span  class="checkbox-label">โรคความดันสูง
                 	</span>
                 </label>
                 <br>
                 <label class="checkbox-inline" >
-                <input id="F" type="checkbox" name="disease"  v-model="disease" value="F"> 
+                <input id="F" @click="fillColorForm" type="checkbox" name="disease"  v-model="disease" value="F"> 
                 	<span  class="checkbox-label">HIV / เอดส์
                 	</span>
                 </label>
@@ -102,37 +102,37 @@
             <div class="col-md-4">
 
                 <label class="checkbox-inline" >
-                <input id="G" type="checkbox" name="disease" v-model="disease" value="G">
+                <input id="G" @click="fillColorForm" type="checkbox" name="disease" v-model="disease" value="G">
                 	<span class="checkbox-label">โรคตับอักเสบ
                 	</span>
                 </label>
                 <br>
                 <label class="checkbox-inline" >
-                <input id="H" type="checkbox" name="disease" v-model="disease" value="H"> 
+                <input id="H" @click="fillColorForm" type="checkbox" name="disease" v-model="disease" value="H"> 
                 	<span class="checkbox-label">โรคเบาหวาน
                 	</span>
                 </label>
                 <br>
                 <label class="checkbox-inline" >
-                <input id="I" type="checkbox" name="disease" v-model="disease" value="I"> 
+                <input id="I" @click="fillColorForm" type="checkbox" name="disease" v-model="disease" value="I"> 
                 	<span  class="checkbox-label">โรคไขข้อ
                 	</span>
                 </label>
                 <br>
                 <label class="checkbox-inline" >
-                <input id="J" type="checkbox" name="disease" v-model="disease" value="J"> 
+                <input id="J" @click="fillColorForm" type="checkbox" name="disease" v-model="disease" value="J"> 
                 	<span class="checkbox-label">ออทิสติก
                 	</span>
                 </label>
                 <br>
                 <label class="checkbox-inline" >
-                <input id="K" type="checkbox" name="disease" v-model="disease" value="K">
+                <input id="K" @click="fillColorForm" type="checkbox" name="disease" v-model="disease" value="K">
                 	<span class="checkbox-label">อัลไซเมอร์
                 	</span>
                 </label>
                 <br>
                 <label class="checkbox-inline" >
-                <input id="L" type="checkbox" name="disease" v-model="disease" value="L"> 
+                <input id="L" @click="fillColorForm" type="checkbox" name="disease" v-model="disease" value="L"> 
                 	<span class="checkbox-label" >โรคติดต่อทางเพศสัมพันธ์
                 	</span>
                 </label>
@@ -140,10 +140,10 @@
             <div class="col-md-4">
             	<div  style=" position: relative; margin-left:50px; width:150px; height:150px; ">
 
-            	<div id="attrimg1" style=" width:75px; height:75px; float:left "></div>
-            	<div id="attrimg2" style=" width:75px; height:75px; float:left "></div>
-           		 <div id="attrimg3" style=" width:75px; height:75px; float:left "></div>
-            	<div id="attrimg4" style=" width:75px; height:75px; float:left "></div>
+            	<div id="attrimg1"  v-bind:style="attr1Style"></div>
+            	<div id="attrimg2" v-bind:style="attr2Style"></div>
+           		 <div id="attrimg3" v-bind:style="attr3Style"></div>
+            	<div id="attrimg4" v-bind:style="attr4Style"></div>
 
             	<img src="img/malenode.png" id="nodeimg" style="position: absolute; top:0px; left:0px;">
         </div>
@@ -158,35 +158,35 @@
 	</fieldset>
 	<!-- --------------------------3---------------------------- -->
 	<fieldset>
-		<h2 style="" class="fs-title">ข้อมูเครือญาติ</h2>
+		<h2 style="" class="fs-title">ข้อมูลเครือญาติ</h2>
 		<h3 class="fs-subtitle">(ข้ามได้)</h3>
 		<div class="col-md-4 col-sm-4 form2" style="text-align: left;">
 			<h2 >ผู้ป่วย</h2><hr>
 			<div class="form-group row form2">
 				<p style="margin-top: 10px; padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">พี่ชายผู้ป่วย</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;"  class="form-control" type="number" min="0" v-model="relativePatient.patient.oBro" placeholder="0">
 				</div>
 				<p style="padding: 0; margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>
 			<div class="form-group row form2">
 				<p style="margin-top: 10px;  padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">พี่สาวผู้ป่วย</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;" v-model="relativePatient.patient.oSis" class="form-control" type="number" min="0"  placeholder="0">
 				</div>
 				<p style="padding: 0; margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>
 			<div class="form-group row form2">
 				<p style="margin-top: 10px;  padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">น้องชายผู้ป่วย</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;"  v-model="relativePatient.patient.yBro" class="form-control" type="number" min="0"  placeholder="0">
 				</div>
 				<p style="padding: 0;  margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>
 			<div class="form-group row form2">
 				<p style="margin-top: 10px;  padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">น้องสาวผู้ป่วย</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;" v-model="relativePatient.patient.ySis"  class="form-control" type="number" min="0"  placeholder="0">
 				</div>
 				<p style="padding: 0;  margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>
@@ -197,28 +197,28 @@
 			<div class="form-group row form2">
 				<p style="margin-top: 10px; padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">พี่ชายพ่อ</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;"  v-model="relativePatient.father.oBro"  class="form-control" type="number" min="0"  placeholder="0">
 				</div>
 				<p style="padding: 0; margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>
 			<div class="form-group row form2">
 				<p style="margin-top: 10px;  padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">พี่สาวพ่อ</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;"  v-model="relativePatient.father.oSis" class="form-control" type="number" min="0"  placeholder="0">
 				</div>
 				<p style="padding: 0; margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>
 			<div class="form-group row form2">
 				<p style="margin-top: 10px;  padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">น้องชายพ่อ</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;" v-model="relativePatient.father.yBro"  class="form-control" type="number" min="0"  placeholder="0">
 				</div>
 				<p style="padding: 0;  margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>
 			<div class="form-group row form2">
 				<p style="margin-top: 10px;  padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">น้องสาวพ่อ</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;"  v-model="relativePatient.father.ySis" class="form-control" type="number" min="0"  placeholder="0">
 				</div>
 				<p style="padding: 0;  margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>
@@ -229,28 +229,28 @@
 			<div class="form-group row form2">
 				<p style="margin-top: 10px; padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">พี่ชายแม่</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;" v-model="relativePatient.mother.oBro" class="form-control" type="number" min="0"  placeholder="0">
 				</div>
 				<p style="padding: 0; margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>
 			<div class="form-group row form2">
 				<p style="margin-top: 10px;  padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">พี่สาวแม่</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;" v-model="relativePatient.mother.oSis" class="form-control" type="number" min="0"  placeholder="0">
 				</div>
 				<p style="padding: 0; margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>
 			<div class="form-group row form2">
 				<p style="margin-top: 10px;  padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">น้องชายแม่</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;" v-model="relativePatient.mother.yBro" class="form-control" type="number" min="0"  placeholder="0">
 				</div>
 				<p style="padding: 0;  margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>
 			<div class="form-group row form2">
 				<p style="margin-top: 10px;  padding: 0" for="example-text-input" class="col-md-5 col-sm-5 col-form-label">น้องสาวแม่</p>
 				<div class="col-md-4 col-sm-4">
-					<input style="width: 60px;"  class="form-control" type="text"  placeholder="0">
+					<input style="width: 70px;" v-model="relativePatient.mother.ySis" class="form-control" type="number" min="0"  placeholder="0">
 				</div>
 				<p style="padding: 0;  margin-top: 10px; " for="example-text-input" class="col-md-2 col-sm-2 col-form-label">คน</p>
 			</div>

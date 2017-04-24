@@ -49,6 +49,10 @@ label{
 	font-size: 1.1em !important;
 
 }
+.form2 >div{
+	padding: 0;
+
+}
 
 .disease >label{
 	margin: 5px;
