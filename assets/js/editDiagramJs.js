@@ -11,7 +11,10 @@
     methods:{
 	    formatObject:function(obj){
 	    	var counter = 0
-
+	    	var table = []
+	    	for(var i =0; i<obj.length ;i++){
+	    		console.log(obj[i].key)
+	    	}
 	    }
     },
     mounted(){
