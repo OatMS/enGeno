@@ -1,4 +1,4 @@
-//var selectedNode = [];
+
 var $$ = go.GraphObject.make;
 
 
@@ -205,10 +205,44 @@ var enGeno = class {
         var originArray = [];
         originArray= setOriginalArray(data);
         
-        
+        function formatData(obj){
+            var counter = 0
+            var table = []
+            var newData = []
+            for(var i =0; i<obj.length ;i++){
+                console.log(obj[i].key)
+                table["key"+obj[i].key] = i
+            }
+            console.log(table)
+            for(var i =0; i<obj.length ;i++){
+                
+                obj[i].key = table["key"+obj[i].key]
+                if(obj[i].f){
+                    obj[i].f = table["key"+obj[i].f]
+                }
+                if(obj[i].m){
+                    obj[i].m = table["key"+obj[i].m]
+                }
+                if(obj[i].cou){
+                    if(typeof obj[i].cou == "string"
+                        ||typeof obj[i].cou == "number"){
+                        obj[i].cou = table["key"+obj[i].cou]
+                    }else if(typeof obj[i].cou == "object"
+                        ||typeof obj[i].cou == "array"){
+                        newcou = []
+                        for(j=0;j<obj[i].cou.length;j++){
+                            newcou.push(table["key"+obj[i].cou[j]])
+                        }
+                        obj[i].cou = newcou
+                    }
+                }
+            }
+            return obj
+        }
         function setOriginalArray(data) {
 
             originArray = [];
+            data = formatData(data)
 
             for (var i = 0; i < data.length; i++) {
                 if (data[i].m && typeof data[i].m == "string") data[i].m = parseInt(data[i].m);
@@ -240,10 +274,17 @@ var enGeno = class {
         this.pushObjInOriginalArray = function (obj) {
             originArray[""+obj.key] = JSON.parse(JSON.stringify(obj));
         }
+        this.removeObjInOriginalArray = function (index) {
+            originArray.splice(index,1);
+        }
         this.getOriginalArray = function () {
-            var arr = JSON.parse(JSON.stringify(originArray));
-            //     console.log("inget origin = "+JSON.stringify(arr));
+            var arr = _.without(JSON.parse(JSON.stringify(originArray)), null);
+            // var arr = this.getDataNodeToNewArray();
+            // arr.filter(function(val) { return val !== null; }).join(", ")
             return arr;
+        }
+        this.setOriginalArray = function (arr) {
+            originArray = arr
         }
 
         this.setPropertyArray = function (key, pro, value) {
@@ -277,10 +318,10 @@ if (originArray[""+key].cou && typeof originArray[""+key].cou == "object") {
                         }
                     } else if (originArray[""+key].cou && typeof obj.cou == "number") {
                         var temp = originArray[""+key].cou;
-                        obj.cou = [temp, value];
+                        originArray[""+key].cou = [temp, value];
 
                     } else {
-                        obj.cou = value;
+                        originArray[""+key].cou = value;
                     }
             
         // }
@@ -1028,7 +1069,7 @@ if (originArray[""+key].cou && typeof originArray[""+key].cou == "object") {
 
         this.setupMarriages();
         this.setupParents();
-        // this.diagram.animationManager.isEnabled = false;
+        this.diagram.animationManager.isEnabled = false;
 
 
     };
@@ -1340,7 +1381,7 @@ enGeno.prototype.addChild = function (node, gender, data, couKey) {
         }
     }
 
-    this.pushObjInOriginalArray(newnode);
+    // this.pushObjInOriginalArray(newnode);
 
     this.diagram.startTransaction("add child");
 
@@ -1366,6 +1407,7 @@ enGeno.prototype.addChild = function (node, gender, data, couKey) {
             }
 
     this.diagram.commitTransaction("add child");
+    this.setOriginalArray(this.getDataNodeToNewArray());
 
 }
 
@@ -1433,6 +1475,8 @@ enGeno.prototype.addSpouse = function (node, data) {
 
 // this.setupDiagram();
 //  this.reDiagram();
+    this.setOriginalArray(this.getDataNodeToNewArray());
+
     console.log("Add Node Spouse");
     return key;
 
@@ -1480,6 +1524,30 @@ enGeno.prototype.findNode = function (data) {
 enGeno.prototype.removeNode = function (node) {
     var nodeRemove = this.diagram.model.findNodeDataForKey(node.data.key);
     this.diagram.commandHandler.deleteSelection();
+    this.removeObjInOriginalArray(node.data.key);
+
+    //clear cou
+    var model = this.diagram.model;
+
+    this.diagram.startTransaction("remove cou in array");
+    //for each Node in diagram
+
+    for (var i = 0; i < model.nodeDataArray.length; i++) {
+        var data = model.nodeDataArray[i];
+        if (data.cou && data.cou == node.data.key) { //if has attribute a
+             // model.setDataProperty(data, "show", true)
+             console.log(data);
+             delete data['cou'];
+             console.log(data);
+
+        }
+    }
+    this.diagram.commitTransaction("remove cou in array")
+
+    this.setOriginalArray(this.getDataNodeToNewArray());
+
+
+
     /*
     var key = node.data.key;
     this.diagram.startTransaction("deleteNode");
@@ -1609,6 +1677,44 @@ enGeno.prototype.genKey = function () {
 
     return key;
 }
+
+
+enGeno.prototype.formatData = function (data) {
+    var counter = 0
+            var table = []
+            var newData = []
+            for(var i =0; i<obj.length ;i++){
+                console.log(obj[i].key)
+                table["key"+obj[i].key] = i
+            }
+            console.log(table)
+            for(var i =0; i<obj.length ;i++){
+                
+                obj[i].key = table["key"+obj[i].key]
+                if(obj[i].f){
+                    obj[i].f = table["key"+obj[i].f]
+                }
+                if(obj[i].m){
+                    obj[i].m = table["key"+obj[i].m]
+                }
+                if(obj[i].cou){
+                    if(typeof obj[i].cou == "string"
+                        ||typeof obj[i].cou == "number"){
+                        obj[i].cou = table["key"+obj[i].cou]
+                    }else if(typeof obj[i].cou == "object"
+                        ||typeof obj[i].cou == "array"){
+                        newcou = []
+                        for(j=0;j<obj[i].cou.length;j++){
+                            newcou.push(table["key"+obj[i].cou[j]])
+                        }
+                        obj[i].cou = newcou
+                    }
+                }
+            }
+            console.log(obj)
+            return obj
+}
+
 
 
 enGeno.prototype.searchByKeyWord = function (keyword) {
