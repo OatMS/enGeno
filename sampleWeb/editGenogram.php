@@ -89,16 +89,17 @@ else{
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
     <!-- Latest compiled and minified JavaScript -->
+     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
      <script src="go.js"></script>
+     <!-- <script src="enGeno.js"></script> -->
      <script src="enGeno.js"></script>
-     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
    <!-- you don't need to use this -->
-  <script src="goSamples.js"></script>  <!-- this is only for the GoJS Samples framework -->
-      <script src="enGeno.js"></script>
-  <script src="goSamples.js"></script>  <!-- this is only for the GoJS Samples framework -->
+  <!-- <script src="goSamples.js"></script> -->
+      <!-- <script src="enGeno.js"></script> -->
+  <!-- <script src="goSamples.js"></script>  -->
       <script src="formControl.js"></script>
 
 </head>
@@ -274,7 +275,7 @@ else{
      </div>
 
 
-    <!-- ----- edit Form ------------------->
+    <!-- ------------ edit Form ------------------->
      <div class="form" id="editForm" hidden>
 
         <h2 style="">ข้อมูลสมาชิกครอบครัว</h2>
