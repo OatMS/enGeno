@@ -3,7 +3,9 @@
     el:"#editGenogram",
     data:{
       myDiagram:{},
-      data:[]
+      data:[],
+      attrimgPath:[],
+      attrdetial:[]
     },
     created(){
 
@@ -46,82 +48,50 @@
 	    }
     },
     mounted(){
+        $('[data-toggle="tooltip"]').tooltip()
+    	for (var i = 13; i < 25; i++) {
+    		this.attrimgPath.push("img/attr/"+i+".png")
+    	}
+    	this.attrdetial = ["โรคความดันโลหิตสูง","โรคซึมเศร้า","โรคตับอักเสบ","โรคติดต่อทางเพศสัมพันธ์","โรคมะเร็ง","โรคหัวใจ","โรคออทิสติก","โรคอัลไซเมอร์","โรคอ้วน.png","โรคเบาหวาน","โรคเอดส์ - HIV","โรคไขข้อ"]
+/*
     	this.data = [
     {
-        key: 0,
-        n: "Eve",
-        s: "F",
-        m: 1,
-        a: "BHS"
+        key: 0,n: "Eve", s: "F",m: 1,a: "BHS"
     },
     {
-        key: 1,
-        n: 'Mom',
-        s: 'F',
-        cou: 2,
-        a: "CGK"
+        key: 1,n: 'Mom',s: 'F',cou: 2,a: "CGK"
     },
     {
-        key: 2,
-        n: "Dad",
-        s: 'M',
-        a: "AELS"
+        key: 2,n: "Dad",s: 'M',a: "AELS"
     },
     {
-        key: 3,
-        n: "Ever",
-        s: "F",
-        m: 1,
-        f: 2,
-        a: "BH"
+        key: 3,n: "Ever",s: "F", m: 1,f: 2,a: "BH"
     },
     {
-        key: 4,
-        n: 'Ever',
-        s: 'M',
-        cou: 3
+        key: 4,n: 'Ever',s: 'M',cou: 3
     }
 ] 
         data2 = [
     {
-        key: "eve",
-        n: "Eve",
-        s: "F",
-        m: "mom",
-        f: "fan",
-        a: "BHS"
+        key: "eve",n: "Eve",s: "F",m: "mom",f: "fan",a: "BHS"
     },
     {
-        key: "mom",
-        n: 'Mom',
-        s: 'F',
-        cou: "fan",
-        a: "CGK"
+        key: "mom",n: 'Mom',s: 'F',cou: "fan",a: "CGK"
     },
     {
-        key: "fan",
-        n: "Dad",
-        s: 'M',
-        a: "AELS"
+        key: "fan",n: "Dad",s: 'M',a: "AELS"
     },
     {
-        key: "son",
-        n: "Ever",
-        s: "F",
-        m: "mom",
-        f: "fan",
-        a: "BH"
+        key: "son",n: "Ever",s: "F",m: "mom",f: "fan",a: "BH"
     },
     {
-        key: "coc",
-        n: 'Ever1',
-        s: 'M',
-        cou: "son"
+        key: "coc",n: 'Ever1',s: 'M',cou: "son"
     }
 ] 
-    // newdata = this.formatObject(data2)
-    	this.myDiagram = new enGeno(data2, "myDiagram")
-    	this.myDiagram.init()
+    
+    	// this.myDiagram = new enGeno(data2, "myDiagram")
+    	// this.myDiagram.init()
+*/
 
     },
     watch:{

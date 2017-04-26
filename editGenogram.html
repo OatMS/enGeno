@@ -2,11 +2,45 @@
 <html>
 <head>
 	<title>enGeno | แก้ไขแผนผงครอบครัว</title>
+         <link href="assets/css/editPageStyle.css" rel="stylesheet" type="text/css" />
+	<!-- <link rel="stylesheet" type="text/css" href="assets/css/webStyle.css"> -->
+
 </head>
-<body>
-<div id="editGenogram">
-<div style="width: 600px; height: 400px; border: 1px solid black;" class="" id="myDiagram"  >
+<body id="pagebody">
+<div id="header">
+    <img src="img/logo.png" id="logo">
 </div>
+<div id="editGenogram">
+<!-- ---------------- side menu --------------- -->
+<section id="sidebar">
+	<p class="sideheader">สัญลักษณ์แสดงโรค</p>
+	<div style="text-align: center;">
+		<img class="attrimg"  v-for="path,index in attrimgPath" :src=path data-toggle="tooltip" data-placement="bottom" :title=attrdetial[index]>
+	<a href="#" data-toggle="tooltip" data-placement="bottom" title="asdad">ascfsd</a>
+	</div>
+</section>
+
+
+<!-- diagram -->
+<div style="" class="" id="myDiagram"  >
+</div>
+
+<!-- info node -->
+<section id="infonode">
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
 </body>
 </html>
@@ -17,6 +51,6 @@
 <!-- <script src="enGenoLibrary/enGeno.js"></script> -->
 <script type="text/javascript" src="assets/js/underscore-min.js"></script>
 <script type="text/javascript" src="assets/js/newEnGeno.js"></script>
-<script type="text/javascript" src="assets/js/jquery-latest.min.js"></script>
+<!-- <script type="text/javascript" src="assets/js/jquery-latest.min.js"></script> -->
 <script type="text/javascript" src="assets/js/editDiagramJs.js"></script>
 
