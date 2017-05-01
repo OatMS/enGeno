@@ -5,7 +5,22 @@
       myDiagram:{},
       data:[],
       attrimgPath:[],
-      attrdetial:[]
+      attrdetial:[],
+      filterAttr:[],
+      selectedNode:{},
+      nodeClicked:false,
+      attr1Style:{
+        width:'75px', height:'75px', float:'left' ,backgroundColor:'white'
+      },
+      attr2Style:{
+        width:'75px', height:'75px', float:'left' ,backgroundColor:'white'
+      },
+      attr3Style:{
+        width:'75px', height:'75px', float:'left' ,backgroundColor:'white'
+      },
+      attr4Style:{
+        width:'75px', height:'75px', float:'left' ,backgroundColor:'white'
+      }
     },
     created(){
 
@@ -45,14 +60,95 @@
             }
             console.log(obj)
             return obj
-	    }
+	    },
+        filterClick:function(){
+            if(this.filterAttr.length==0){
+                this.myDiagram.filter("")
+            }else{
+                this.myDiagram.filter(this.filterAttr)
+            }
+        },
+        attrFill:function(a) {
+            switch (a) {
+                case "A":
+                    return "#880015";
+                case "B":
+                    return "#3f48cc";
+                case "C":
+                    return "#21f90a";
+                case "D":
+                    return "#fff200";
+                case "E":
+                    return "#f92298";
+                case "F":
+                    return "#ed1c24";
+                case "G":
+                    return "#35e4ee";
+                case "H":
+                    return "#00a2e8";
+                case "I":
+                    return "#22b14c";
+                case "J":
+                    return "#a349a4";
+                case "K":
+                    return "#ff7f27";
+                case "L":
+                    return "#807a9e";
+                case "S":
+                    return "red";
+                default:
+                    return "transparent";
+            }
+        },
+        diagramClick:function(){
+            if(this.myDiagram.getSelectedNodes().length>0){
+                let selectedNodesArr = this.myDiagram.getSelectedNodes()
+                this.selectedNode = selectedNodesArr[0].data
+                if(this.selectedNode.a && this.selectedNode.a.length>0){
+                    if(this.selectedNode.a.length>3){
+                        this.attr4Style.backgroundColor = this.attrFill(this.selectedNode.a[3])
+                        this.attr3Style.backgroundColor = this.attrFill(this.selectedNode.a[2])
+                        this.attr2Style.backgroundColor = this.attrFill(this.selectedNode.a[1])
+                        this.attr1Style.backgroundColor = this.attrFill(this.selectedNode.a[0])
+                    }
+                    else if(this.selectedNode.a.length>2){
+                        this.attr3Style.backgroundColor = this.attrFill(this.selectedNode.a[2])
+                        this.attr2Style.backgroundColor = this.attrFill(this.selectedNode.a[1])
+                        this.attr1Style.backgroundColor = this.attrFill(this.selectedNode.a[0])
+                        this.attr4Style.backgroundColor = 'white'
+                    }
+                    else if(this.selectedNode.a.length>1){
+                        this.attr2Style.backgroundColor = this.attrFill(this.selectedNode.a[1])
+                        this.attr1Style.backgroundColor = this.attrFill(this.selectedNode.a[0])
+                        this.attr3Style.backgroundColor = 'white'
+                        this.attr4Style.backgroundColor = 'white'
+                    }
+                    else{
+                        this.attr1Style.backgroundColor = this.attrFill(this.selectedNode.a[0])
+                        this.attr2Style.backgroundColor = 'white'
+                        this.attr3Style.backgroundColor = 'white'
+                        this.attr4Style.backgroundColor = 'white'
+                    }
+                }else{
+                    this.attr1Style.backgroundColor = 'white'
+                    this.attr2Style.backgroundColor = 'white'
+                    this.attr3Style.backgroundColor = 'white'
+                    this.attr4Style.backgroundColor = 'white'
+                    
+                }
+                console.log(this.selectedNode)
+                this.nodeClicked = true
+            }else{
+                this.nodeClicked = false
+            }
+        }
     },
     mounted(){
         $('[data-toggle="tooltip"]').tooltip()
     	for (var i = 13; i < 25; i++) {
     		this.attrimgPath.push("img/attr/"+i+".png")
     	}
-    	this.attrdetial = ["โรคความดันโลหิตสูง","โรคซึมเศร้า","โรคตับอักเสบ","โรคติดต่อทางเพศสัมพันธ์","โรคมะเร็ง","โรคหัวใจ","โรคออทิสติก","โรคอัลไซเมอร์","โรคอ้วน.png","โรคเบาหวาน","โรคเอดส์ - HIV","โรคไขข้อ"]
+    	this.attrdetial = ["โรคความดันโลหิตสูง","โรคซึมเศร้า","โรคตับอักเสบ","โรคติดต่อทางเพศสัมพันธ์","โรคมะเร็ง","โรคหัวใจ","โรคออทิสติก","โรคอัลไซเมอร์","โรคอ้วน","โรคเบาหวาน","โรคเอดส์ - HIV","โรคไขข้อ"]
 /*
     	this.data = [
     {
@@ -71,6 +167,8 @@
         key: 4,n: 'Ever',s: 'M',cou: 3
     }
 ] 
+*/
+
         data2 = [
     {
         key: "eve",n: "Eve",s: "F",m: "mom",f: "fan",a: "BHS"
@@ -89,13 +187,14 @@
     }
 ] 
     
-    	// this.myDiagram = new enGeno(data2, "myDiagram")
-    	// this.myDiagram.init()
-*/
+    	this.myDiagram = new enGeno(data2, "myDiagram")
+    	this.myDiagram.init()
 
     },
     watch:{
-    	
+    	filterAttr:function(){
+            console.log(this.filterAttr)
+        }
     }
 
 })

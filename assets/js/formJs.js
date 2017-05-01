@@ -37,29 +37,29 @@
 	    attrFill:function(a) {
 	        switch (a) {
 	            case "A":
-	                return "#0000FE";break;
-	            case "B":
-	                return "#FF00FF";break;
-	            case "C":
-	                return "#FE0000";break;
-	            case "D":
-	                return "#C00000";break;
-	            case "E":
-	                return "#C00000";break;
-	            case "F":
-	                return "#FFC000";break;
-	            case "G":
-	                return "#01FF00";break;
-	            case "H":
-	                return "#800080";break;
-	            case "I":
-	                return "#939FBB";break;
-	            case "J":
-	                return "#01FFFF";break;
-	            case "K":
-	                return "#359AFF";break;
-	            case "L":
-	                return "#FFFF00";break;
+                    return "#880015";
+                case "B":
+                    return "#3f48cc";
+                case "C":
+                    return "#21f90a";
+                case "D":
+                    return "#fff200";
+                case "E":
+                    return "#f92298";
+                case "F":
+                    return "#ed1c24";
+                case "G":
+                    return "#35e4ee";
+                case "H":
+                    return "#00a2e8";
+                case "I":
+                    return "#22b14c";
+                case "J":
+                    return "#a349a4";
+                case "K":
+                    return "#ff7f27";
+                case "L":
+                    return "#807a9e";
 	            case "S":
 	                return "red";
 	            default:

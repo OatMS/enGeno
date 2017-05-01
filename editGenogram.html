@@ -16,18 +16,43 @@
 	<p class="sideheader">สัญลักษณ์แสดงโรค</p>
 	<div style="text-align: center;">
 		<img class="attrimg"  v-for="path,index in attrimgPath" :src=path data-toggle="tooltip" data-placement="bottom" :title=attrdetial[index]>
-	<a href="#" data-toggle="tooltip" data-placement="bottom" title="asdad">ascfsd</a>
+	</div>
+	<p class="sideheader">ตัวกรอง</p>
+	<div style="text-align: left; margin: 20px;">
+		<label v-for="attr,index in attrdetial" class="labelFilter"><input v-model="filterAttr" type="checkbox" name="filter" :value="String.fromCharCode(65 + index)" @click="filterClick"> {{attr}}
+		</label>
 	</div>
 </section>
 
 
-<!-- diagram -->
-<div style="" class="" id="myDiagram"  >
+<!-- ---------------- diagram ---------------- -->
+<div style="" class="" id="myDiagram" @click="diagramClick" >
 </div>
 
-<!-- info node -->
-<section id="infonode">
+<!-- ---------------- info node ---------------- -->
+<section class="infonode" v-show="nodeClicked">
+	<div  style=" position: relative; margin:50px 100px; width:150px; height:150px; ">
 
+        	<div id="attrimg1" v-bind:style="attr1Style"></div>
+        	<div id="attrimg2" v-bind:style="attr2Style"></div>
+       		<div id="attrimg3" v-bind:style="attr3Style"></div>
+        	<div id="attrimg4" v-bind:style="attr4Style"></div>
+
+        	<img v-if="selectedNode.s=='M'" src="img/malenode.png" id="nodeimg" style="position: absolute; top:0px; left:0px;">
+        	<img v-if="selectedNode.s=='F'" src="img/femalenode.png" id="nodeimg" style="position: absolute; top:0px; left:0px;">
+    </div>
+
+    <div>
+    	<div class="form-group row">
+		<label style="margin-top: 10px; text-align: : right;" for="example-text-input" class="col-md-4 col-sm-4 ">ชื่อผู้ป่วย :</label>
+			<div class="col-md-8 col-sm-8">
+				<input style=""class="form-control" v-model="name"  type="text" placeholder="ชื่อผู้ป่วย" placeholder="0">
+			</div>
+		</div>
+    </div>
+</section>
+<section class="infonode" v-show="!nodeClicked">
+	<p style="color: gray; text-align: center;margin: 200px auto;">no selected node</p>
 </section>
 
 

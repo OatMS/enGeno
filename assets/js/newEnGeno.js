@@ -416,29 +416,29 @@ if (originArray[""+key].cou && typeof originArray[""+key].cou == "object") {
             if (a.show == true && a.attr && (a.index == 1||a.index == 2||a.index == 3||a.index == 4)) {
                 switch (a.attr) {
                     case "A":
-                        return "#0000FE";
+                        return "#880015";
                     case "B":
-                        return "#FF00FF";
+                        return "#3f48cc";
                     case "C":
-                        return "#FE0000";
+                        return "#21f90a";
                     case "D":
-                        return "#C00000";
+                        return "#fff200";
                     case "E":
-                        return "#C00000";
+                        return "#f92298";
                     case "F":
-                        return "#FFC000";
+                        return "#ed1c24";
                     case "G":
-                        return "#01FF00";
+                        return "#35e4ee";
                     case "H":
-                        return "#800080";
+                        return "#00a2e8";
                     case "I":
-                        return "#939FBB";
+                        return "#22b14c";
                     case "J":
-                        return "#01FFFF";
+                        return "#a349a4";
                     case "K":
-                        return "#359AFF";
+                        return "#ff7f27";
                     case "L":
-                        return "#FFFF00";
+                        return "#807a9e";
                     case "S":
                         return "red";
                     default:
