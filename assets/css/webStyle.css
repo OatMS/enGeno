@@ -1,0 +1,61 @@
+#header {
+    background-color: #475dbc;
+    height: 15%;
+    width: 100%;
+}
+
+#logo {
+    height:100px ; width:auto ;
+}
+
+@font-face {
+    font-family: supermarket;
+    src: url(../supermarket.ttf);
+}
+
+body{
+    font-family: supermarket !important;
+    font-size: 1.3em;
+    background-color:transparent !important;
+
+}
+
+input[type="radio"], input[type="checkbox"]{
+	position: absolute;
+	left: 0px;
+	width:1.1em;
+	height:1.1em;
+}
+
+input[type="checkbox"]{
+	position: absolute;
+	left: -15px;
+	width:1.1em;
+	height:1.1em;
+}
+.checkbox-label{
+	position: absolute;
+	left: -5px;
+    width: 200px;
+    text-align: left;
+}
+
+label{
+	font-size: 1.1em;
+}
+
+.form2 >p{
+	padding: 0;
+	font-size: 1.1em !important;
+
+}
+.form2 >div{
+	padding: 0;
+
+}
+
+.disease >label{
+	margin: 5px;
+}
+
+

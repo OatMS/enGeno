@@ -203,8 +203,8 @@ var enGeno = class {
         var nodeOnRightClicked;
        this.setContextNode();
         var originArray = setOriginalArray(data);
-
-
+        
+        
         function setOriginalArray(data) {
 
             originArray = [];
@@ -299,7 +299,7 @@ var enGeno = class {
                     columnSpacing: 10
                 })
             });
-
+        
         //************* context diagram ************
         this.diagram.contextMenu =
     $(go.Adornment, "Vertical",
@@ -330,7 +330,7 @@ var enGeno = class {
         this.diagram.div = document.getElementById("myDiagram");
 
 
-
+        
 
 
         // determine the color for each attribute shape
@@ -370,7 +370,7 @@ var enGeno = class {
                 return "transparent";
             }
         }
-
+        
         function infantFill(a){
              if (a.show == true && a.attr) {
                  if(a.attr == "S")return "red";
@@ -406,11 +406,11 @@ var enGeno = class {
             console.log(JSON.stringify(a));
 
         }
-
+        
          function infantGeometry(a){
              if (a.attr) {
                if (a.attr == 'S') return slash;
-
+              
                 else return brsq;
             }
          }
@@ -474,7 +474,7 @@ this.diagram.nodeTemplateMap.add("I", // male
                     click: function (e, node) {
                             clickNode(e, node)
                         }
-
+                       
                 },
                 $(go.Panel, {
                         name: "ICON"
@@ -830,18 +830,11 @@ this.diagram.nodeTemplateMap.add("I", // male
     setupDiagram(focusId) {
         var array = this.getOriginalArray();
         //********** change object ***********
-        array = array.filter(function (el) {
-          return el != null;
-        });
-        console.log(array);
 
         var newdata = array;
      //   console.log(array);
-
         for (var i = 0; i < newdata.length; i++) {
-
-            if(newdata[i]!= null && array[i]!= null ){
-                console.log(JSON.stringify(newdata[i]));
+            //   console.log(JSON.stringify(newdata[i]));
             if (newdata[i] && newdata[i].a) {
                 var str = newdata[i].a;
                 newdata[i].aobj = [];
@@ -883,7 +876,6 @@ this.diagram.nodeTemplateMap.add("I", // male
                     array[i].cou[c] = parseInt(newdata[i].cou[c]);
                 }
             }
-          }
         }
 
       //  console.log(JSON.stringify(newdata));
@@ -1141,29 +1133,29 @@ enGeno.prototype.setContextNode = function () {
    this.contextNode = $(go.Adornment, "Vertical", // that has one button
         $("ContextMenuButton",
             $(go.TextBlock, "add spouse"), {
-               click:contextFunction
+               click:contextFunction 
             }
         ),
         $("ContextMenuButton",
             $(go.TextBlock, "add daughter"), {
-               click:contextFunction
+               click:contextFunction 
             }
         ),
         $("ContextMenuButton",
             $(go.TextBlock, "add son"), {
-                click:contextFunction
+                click:contextFunction 
             }
         ),
         $("ContextMenuButton",
             $(go.TextBlock, "remove Node"), {
-                click:contextFunction
+                click:contextFunction 
             }
         )
 
         // more ContextMenuButtons would go here
     );
-
-
+    
+        
 
 }
 
@@ -1270,7 +1262,7 @@ enGeno.prototype.addDaughter = function (node, data) {
 enGeno.prototype.addSpouse = function (node, data) {
 
  console.log("Before origin array = "+JSON.stringify(this.getOriginalArray()));
-
+    
     if(this.findMarriageArray(node.data.key).length >0 ) return null
     // var node = b.part.adornedPart;
     var data = data;
@@ -1369,7 +1361,7 @@ enGeno.prototype.removeNode = function (node) {
     /*
     var key = node.data.key;
     this.diagram.startTransaction("deleteNode");
-
+   
    var it = node.linksConnected;
     while(it.next()){
         var child = it.value;
@@ -1546,7 +1538,7 @@ enGeno.prototype.searchByKeyWord = function (keyword) {
     }
     //********** make img****************
 enGeno.prototype.makeImage = function (para1, para2) {
-
+   
     var db = this.diagram.documentBounds.copy();
     var boundswidth = db.width;
     var boundsheight = db.height;

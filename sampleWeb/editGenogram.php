@@ -89,15 +89,16 @@ else{
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
     <!-- Latest compiled and minified JavaScript -->
+     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
      <script src="go.js"></script>
+     <!-- <script src="enGeno.js"></script> -->
      <script src="enGeno.js"></script>
-     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
    <!-- you don't need to use this -->
   <!-- <script src="goSamples.js"></script> -->
-      <script src="enGeno.js"></script>
+      <!-- <script src="enGeno.js"></script> -->
   <!-- <script src="goSamples.js"></script>  -->
       <script src="formControl.js"></script>
 
@@ -223,7 +224,7 @@ else{
 <!-- Button Openfilt -->
 
         <div style="width:60%;
-    height:650px; 
+    height:650px;
     float:left;position:relative; background-color:white;" >
             <a id="download-txt" download="genogram-info.txt">
              <image class="diagram-icon" id="icon-export" src="img/download-icon.png" onclick="downloadTxtFile()" >
@@ -234,7 +235,7 @@ else{
         <div class="" id="myDiagram"  >
 
         </div>
-            
+
         </div>
 
         <div id="infoNode" >
@@ -334,7 +335,7 @@ else{
 </menu>
 
 </body>
-<!-- ******************* Context Node *********** --> 
+<!-- ******************* Context Node *********** -->
 <!-- sep -->
 <nav id="context-menu" class="context-menu">
     <ul class="context-menu__items">
@@ -446,7 +447,7 @@ return vars;
     //***************Context JS********************
 
 (function() {
-  
+
   "use strict";
 
   //////////////////////////////////////////////////////////////////////////////
@@ -460,14 +461,14 @@ return vars;
   /**
    * Function to check if we clicked inside an element with a particular class
    * name.
-   * 
+   *
    * @param {Object} e The event
    * @param {String} className The class name to check against
    * @return {Boolean}
    */
   function clickInsideElement( e, className ) {
     var el = e.srcElement || e.target;
-    
+
     if ( el.classList.contains(className) ) {
       return el;
     } else {
@@ -483,7 +484,7 @@ return vars;
 
   /**
    * Get's exact position of event.
-   * 
+   *
    * @param {Object} e The event passed in
    * @return {Object} Returns the x and y position
    */
@@ -492,7 +493,7 @@ return vars;
     var posy = 0;
 
     if (!e) var e = window.event;
-    
+
     if (e.pageX || e.pageY) {
       posx = e.pageX;
       posy = e.pageY;
@@ -514,7 +515,7 @@ return vars;
   //
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * Variables.
    */
@@ -631,7 +632,7 @@ return vars;
 
   /**
    * Positions the menu properly.
-   * 
+   *
    * @param {Object} e The event
    */
   function positionMenu(e) {
@@ -660,7 +661,7 @@ return vars;
 
   /**
    * Dummy action function that logs an action when a menu item link is clicked
-   * 
+   *
    * @param {HTMLElement} link The link that was clicked
    */
   function menuItemListener( link ) {

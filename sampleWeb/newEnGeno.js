@@ -200,11 +200,12 @@ var enGeno = class {
 
         var diagram;
         this.contextNode;
+        this.contextFunction;
         var nodeOnRightClicked;
        this.setContextNode();
         var originArray = setOriginalArray(data);
-
-
+        
+        
         function setOriginalArray(data) {
 
             originArray = [];
@@ -275,7 +276,7 @@ var enGeno = class {
 
 
 
-
+        // initial GoJS simple diagram
         this.diagram =
             $(go.Diagram, {
                 initialAutoScale: go.Diagram.Uniform,
@@ -291,7 +292,7 @@ var enGeno = class {
                     }),
                     $(go.Placeholder)
                 ),
-                click: clickDiagram,
+                // click: clickDiagram,
                 layout: // use a custom layout, defined below
                     $(GenogramLayout, {
                     direction: 90,
@@ -299,6 +300,7 @@ var enGeno = class {
                     columnSpacing: 10
                 })
             });
+        
 
         //************* context diagram ************
         this.diagram.contextMenu =
@@ -318,10 +320,10 @@ var enGeno = class {
     );
 
         //click Listener **candelete**
-        this.diagram.addDiagramListener("ObjectSingleClicked",
-            function (e) {
+        // this.diagram.addDiagramListener("ObjectSingleClicked",
+        //     function (e) {
 
-            });
+        //     });
 
 
 
@@ -330,7 +332,7 @@ var enGeno = class {
         this.diagram.div = document.getElementById("myDiagram");
 
 
-
+        
 
 
         // determine the color for each attribute shape
@@ -370,7 +372,7 @@ var enGeno = class {
                 return "transparent";
             }
         }
-
+        
         function infantFill(a){
              if (a.show == true && a.attr) {
                  if(a.attr == "S")return "red";
@@ -406,11 +408,11 @@ var enGeno = class {
             console.log(JSON.stringify(a));
 
         }
-
+        
          function infantGeometry(a){
              if (a.attr) {
                if (a.attr == 'S') return slash;
-
+              
                 else return brsq;
             }
          }
@@ -463,18 +465,18 @@ var enGeno = class {
                 return "transparent";
 
         }
-this.diagram.nodeTemplateMap.add("I", // male
-            $(go.Node, "Vertical", {
+
+    var infantTemplate = $(go.Node, "Vertical", {
                     locationSpot: go.Spot.Center,
                     locationObjectName: "ICON"
                 }, {
                     doubleClick: function (e, node) {
-                        doubleClickNode(e, node);
+                        // doubleClickNode(e, node);
                     },
                     click: function (e, node) {
-                            clickNode(e, node)
+                            // clickNode(e, node)
                         }
-
+                       
                 },
                 $(go.Panel, {
                         name: "ICON"
@@ -508,7 +510,58 @@ this.diagram.nodeTemplateMap.add("I", // male
                     new go.Binding("text", "n"))
 
 
-            ));
+            );
+
+    var templmap = new go.Map("string", go.Node);
+    templmap.add("I", infantTemplate)
+    this.diagram.nodeTemplateMap = templmap
+
+// this.diagram.nodeTemplateMap.add("I", // male
+//             $(go.Node, "Vertical", {
+//                     locationSpot: go.Spot.Center,
+//                     locationObjectName: "ICON"
+//                 }, {
+//                     doubleClick: function (e, node) {
+//                         // doubleClickNode(e, node);
+//                     },
+//                     click: function (e, node) {
+//                             clickNode(e, node)
+//                         }
+                       
+//                 },
+//                 $(go.Panel, {
+//                         name: "ICON"
+//                     },
+//                     $(go.Shape, "Triangle", {
+//                         width: 40,
+//                         height: 40,
+//                         strokeWidth: 2,
+//                         fill: "white",
+//                         portId: ""
+//                     }),
+//                     $(go.Panel, { // for each attribute show a Shape at a particular place in the overall square
+//                             itemTemplate: $(go.Panel,
+//                                 $(go.Shape, {
+//                                         stroke: null,
+//                                         strokeWidth: 0
+//                                     },
+//                                     new go.Binding("fill", "", infantFill),
+//                                     new go.Binding("geometry", "", infantGeometry))
+//                             ),
+//                             margin: 1,
+//                     position: new go.Point(-5, 5)
+//                         },
+//                         new go.Binding("itemArray", "aobj")
+//                     )
+//                 ),
+//                 $(go.TextBlock, {
+//                         textAlign: "center",
+//                         maxSize: new go.Size(80, NaN)
+//                     },
+//                     new go.Binding("text", "n"))
+
+
+//             ));
 
         // two different node templates, one for each sex,
         // named by the category value in the node data object
@@ -518,10 +571,10 @@ this.diagram.nodeTemplateMap.add("I", // male
                     locationObjectName: "ICON"
                 }, {
                     doubleClick: function (e, node) {
-                        doubleClickNode(e, node);
+                        // doubleClickNode(e, node);
                     },
                     click: function (e, node) {
-                            clickNode(e, node)
+                            // clickNode(e, node)
                         }
            ,contextMenu:this.contextNode
                         //this.setRightClickedNode // define a context menu for each node
@@ -589,9 +642,9 @@ this.diagram.nodeTemplateMap.add("I", // male
                     locationSpot: go.Spot.Center,
                     locationObjectName: "ICON"
                 }, {
-                    doubleClick: doubleClickNode,
+                    // doubleClick: doubleClickNode,
                     click: function (e, node) {
-                            clickNode(e, node)
+                            // clickNode(e, node)
                         }
                 ,contextMenu:this.contextNode
                         // ,rightCl: this.setRightClickedNode
@@ -739,9 +792,23 @@ this.diagram.nodeTemplateMap.add("I", // male
         definePathPattern("Herringbone", "M0 2 L2 4 0 6  M2 0 L4 2  M4 6 L2 8");
         definePathPattern("Sawtooth", "M0 3 L4 0 2 6 6 3");
 
+        
 
-        this.diagram.linkTemplate = // for parent-child relationships
-            $(go.Link, {
+
+        // this.diagram.linkTemplate = // for parent-child relationships
+        //     $(go.Link, {
+        //             routing: go.Link.Orthogonal,
+        //             curviness: 10,
+        //             layerName: "Background",
+        //             selectable: false,
+        //             fromSpot: go.Spot.Bottom,
+        //             toSpot: go.Spot.Top
+        //         },
+        //         $(go.Shape, {
+        //             strokeWidth: 2
+        //         })
+        //     );
+        var simpleLinkTemplate = $(go.Link, {
                     routing: go.Link.Orthogonal,
                     curviness: 10,
                     layerName: "Background",
@@ -754,15 +821,29 @@ this.diagram.nodeTemplateMap.add("I", // male
                 })
             );
 
-        this.diagram.linkTemplateMap.add("Marriage", // for marriage relationships
-            $(go.Link, {
+        var marriageLink = $(go.Link, {
                     selectable: false
                 },
                 $(go.Shape, {
                     strokeWidth: 2,
                     stroke: "darkgreen"
                 })
-            ));
+            );
+
+        var templLinkMap = new go.Map("string", go.Link);
+        templLinkMap.add("Marriage", marriageLink)
+        templLinkMap.add("", simpleLinkTemplate)
+        this.diagram.linkTemplateMap = templLinkMap;
+       
+        // this.diagram.linkTemplateMap.add("Marriage", // for marriage relationships
+        //     $(go.Link, {
+        //             selectable: false
+        //         },
+        //         $(go.Shape, {
+        //             strokeWidth: 2,
+        //             stroke: "darkgreen"
+        //         })
+        //     ));
 
         this.diagram.linkTemplateMap.add("relationship", // for marriage relationships
             $(go.Link, go.Link.Bezier, // slightly curved, by default
@@ -830,18 +911,11 @@ this.diagram.nodeTemplateMap.add("I", // male
     setupDiagram(focusId) {
         var array = this.getOriginalArray();
         //********** change object ***********
-        array = array.filter(function (el) {
-          return el != null;
-        });
-        console.log(array);
 
         var newdata = array;
      //   console.log(array);
-
         for (var i = 0; i < newdata.length; i++) {
-
-            if(newdata[i]!= null && array[i]!= null ){
-                console.log(JSON.stringify(newdata[i]));
+            //   console.log(JSON.stringify(newdata[i]));
             if (newdata[i] && newdata[i].a) {
                 var str = newdata[i].a;
                 newdata[i].aobj = [];
@@ -883,7 +957,6 @@ this.diagram.nodeTemplateMap.add("I", // male
                     array[i].cou[c] = parseInt(newdata[i].cou[c]);
                 }
             }
-          }
         }
 
       //  console.log(JSON.stringify(newdata));
@@ -1137,33 +1210,33 @@ enGeno.prototype.changeNodeData = function (node, obj) {
 
 //on righr click have a function
 enGeno.prototype.setContextNode = function () {
-
+    parent = this
    this.contextNode = $(go.Adornment, "Vertical", // that has one button
         $("ContextMenuButton",
             $(go.TextBlock, "add spouse"), {
-               click:contextFunction
+               // click:parent.contextFunction 
             }
         ),
         $("ContextMenuButton",
             $(go.TextBlock, "add daughter"), {
-               click:contextFunction
+               // click:parent.contextFunction 
             }
         ),
         $("ContextMenuButton",
             $(go.TextBlock, "add son"), {
-                click:contextFunction
+                // click:parent.contextFunction 
             }
         ),
         $("ContextMenuButton",
             $(go.TextBlock, "remove Node"), {
-                click:contextFunction
+                // click:parent.contextFunction 
             }
         )
 
         // more ContextMenuButtons would go here
     );
-
-
+    
+        
 
 }
 
@@ -1270,7 +1343,7 @@ enGeno.prototype.addDaughter = function (node, data) {
 enGeno.prototype.addSpouse = function (node, data) {
 
  console.log("Before origin array = "+JSON.stringify(this.getOriginalArray()));
-
+    
     if(this.findMarriageArray(node.data.key).length >0 ) return null
     // var node = b.part.adornedPart;
     var data = data;
@@ -1369,7 +1442,7 @@ enGeno.prototype.removeNode = function (node) {
     /*
     var key = node.data.key;
     this.diagram.startTransaction("deleteNode");
-
+   
    var it = node.linksConnected;
     while(it.next()){
         var child = it.value;
@@ -1546,7 +1619,7 @@ enGeno.prototype.searchByKeyWord = function (keyword) {
     }
     //********** make img****************
 enGeno.prototype.makeImage = function (para1, para2) {
-
+   
     var db = this.diagram.documentBounds.copy();
     var boundswidth = db.width;
     var boundsheight = db.height;
@@ -1679,7 +1752,7 @@ enGeno.prototype.setupRelationship = function () {
 enGeno.prototype.export = function(filepath){
 
   var arr = this.getDataNodeToNewArray();
-	var txtFile = [];
+    var txtFile = [];
   //for every node
   for(var i=0 ;i<arr.length;i++){
     //every attribute in each node

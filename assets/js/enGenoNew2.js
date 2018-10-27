@@ -1,5 +1,5 @@
 //var selectedNode = [];
-var $ = go.GraphObject.make;
+var $$ = go.GraphObject.make;
 
 
 //---------------Layout----------------------------
@@ -200,14 +200,15 @@ var enGeno = class {
 
         var diagram;
         this.contextNode;
+        this.contextFunction;
         var nodeOnRightClicked;
        this.setContextNode();
-        var originArray = setOriginalArray(data);
-
-
+        this.originArray = this.setOriginalArray(data);
+        // console.log(originArray)
+        
         function setOriginalArray(data) {
 
-            originArray = [];
+            this.originArray = [];
             for (var i = 0; i < data.length; i++) {
                 if (data[i].m && typeof data[i].m == "string") data[i].m = parseInt(data[i].m);
                 if (data[i].f && typeof data[i].f == "string") {
@@ -218,99 +219,127 @@ var enGeno = class {
                     }
                 }
 
-                originArray[""+data[i].key] = JSON.parse(JSON.stringify(data[i]));
+                this.originArray["key"+data[i].key] = JSON.parse(JSON.stringify(data[i]));
 
             }
-
+            console.log(this.originArray)
             //originArray.splice(0, 1);
-            return originArray;
+            return this.originArray;
 
 
         }
 
         this.pushObjInOriginalArray = function (obj) {
-            originArray[""+obj.key] = JSON.parse(JSON.stringify(obj));
+            this.originArray["key"+obj.key] = JSON.parse(JSON.stringify(obj));
         }
         this.getOriginalArray = function () {
-            var arr = JSON.parse(JSON.stringify(originArray));
-            //     console.log("inget origin = "+JSON.stringify(arr));
-            return arr;
+            var str = JSON.stringify(this.originArray)
+            var arr = JSON.parse(str);
+            console.log(str);
+            console.log(this.originArray);
+            return this.originArray;
         }
 
         this.setPropertyArray = function (key, pro, value) {
-            for (var i = 0; i < originArray.length; i++) {
-                if (originArray[i].key == key) {
-                    originArray[i][pro] = value;
+            for (var key in this.originArray) {
+                let obj = this.originArray[key];
+                if(obj.key == key){
+                    obj[pro] = value
                 }
             }
+            // for (var i = 0; i < originArray.length; i++) {
+            //     if (originArray[i].key == key) {
+            //         originArray[i][pro] = value;
+            //     }
+            // }
         }
 
         this.addSpouseArray = function (key, value) {
-
-                //หาkeyที่จะเพิ่มแฟน
-                    if (originArray[""+key].cou && typeof originArray[""+key].cou == "object") {
+            if (this.originArray["key"+key].cou && typeof this.originArray["key"+key].cou == "object") {
                         var can = true;
-                        //ตรวจว่ามี key ที่จะเพิ่มหรือยัง
-                        for (var j = 0; j < originArray[""+key].cou.length; j++) {
-                            if (key == originArray[""+key].cou[j]) {
-                                can = false;
-                                break;
-                            }
-
+                for (var key in this.originArray) {
+                let obj = this.originArray[key];
+                if(key == obj.cou[j]){
+                    can = false;
+                    break;
+                }
+            }
+                if (can) {
+                            obj.cou.push(value);
                         }
-                        if (can) {
-                            originArray[""+key].cou.push(value);
-                        }
-                    } else if (originArray[""+key].cou && typeof originArray[""+key].cou == "number") {
-                        var temp = originArray[""+key].cou;
-                        originArray[""+key].cou = [temp, value];
+                    } else if (this.originArray["key"+key].cou && typeof obj.cou == "number") {
+                        var temp = this.originArray["key"+key].cou;
+                        obj.cou = [temp, value];
 
                     } else {
-                        originArray[""+key].cou = value;
+                        obj.cou = value;
                     }
+            
+                // //หาkeyที่จะเพิ่มแฟน
+                //     if (originArray["key"+key].cou && typeof originArray["key"+key].cou == "object") {
+                //         var can = true;
+                //         //ตรวจว่ามี key ที่จะเพิ่มหรือยัง
+                //         for (var j = 0; j < originArray["key"+key].cou.length; j++) {
+                //             if (key == originArray["key"+key].cou[j]) {
+                //                 can = false;
+                //                 break;
+                //             }
+
+                //         }
+                //         if (can) {
+                //             originArray["key"+key].cou.push(value);
+                //         }
+                //     } else if (originArray["key"+key].cou && typeof originArray["key"+key].cou == "number") {
+                //         var temp = originArray["key"+key].cou;
+                //         originArray["key"+key].cou = [temp, value];
+
+                //     } else {
+                //         originArray["key"+key].cou = value;
+                //     }
             console.log("addSpouseArray key="+key);
-            console.log("Now origin array = "+JSON.stringify(originArray));
+            console.log("Now origin array = "+JSON.stringify(this.originArray));
         }
 
 
 
 
-
+        // initial GoJS simple diagram
         this.diagram =
-            $(go.Diagram, {
+            $$(go.Diagram, {
                 initialAutoScale: go.Diagram.Uniform,
                 initialContentAlignment: go.Spot.Center,
                 "undoManager.isEnabled": true,
                 // when a node is selected, draw a big yellow circle behind it
-                nodeSelectionAdornmentTemplate: $(go.Adornment, "Auto", {
+                nodeSelectionAdornmentTemplate: $$(go.Adornment, "Auto", {
                         layerName: "Grid"
                     }, // the predefined layer that is behind everything else
-                    $(go.Shape, "Circle", {
+                    $$(go.Shape, "Circle", {
                         fill: "yellow",
                         stroke: null
                     }),
-                    $(go.Placeholder)
+                    $$(go.Placeholder)
                 ),
-                click: clickDiagram,
+                // click: clickDiagram,
                 layout: // use a custom layout, defined below
-                    $(GenogramLayout, {
+                    $$(GenogramLayout, {
                     direction: 90,
                     layerSpacing: 30,
                     columnSpacing: 10
                 })
             });
+        
 
         //************* context diagram ************
         this.diagram.contextMenu =
-    $(go.Adornment, "Vertical",
-      $("ContextMenuButton",
-        $(go.TextBlock, "    Undo    "),
+    $$(go.Adornment, "Vertical",
+      $$("ContextMenuButton",
+        $$(go.TextBlock, "    Undo    "),
         { click: function(e, obj) { e.diagram.commandHandler.undo(); } },
         new go.Binding("visible", "", function(o) {
                                           return o.diagram.commandHandler.canUndo();
                                         }).ofObject()),
-      $("ContextMenuButton",
-        $(go.TextBlock, "   Redo   "),
+      $$("ContextMenuButton",
+        $$(go.TextBlock, "   Redo   "),
         { click: function(e, obj) { e.diagram.commandHandler.redo(); } },
         new go.Binding("visible", "", function(o) {
                                           return o.diagram.commandHandler.canRedo();
@@ -318,10 +347,10 @@ var enGeno = class {
     );
 
         //click Listener **candelete**
-        this.diagram.addDiagramListener("ObjectSingleClicked",
-            function (e) {
+        // this.diagram.addDiagramListener("ObjectSingleClicked",
+        //     function (e) {
 
-            });
+        //     });
 
 
 
@@ -330,7 +359,7 @@ var enGeno = class {
         this.diagram.div = document.getElementById("myDiagram");
 
 
-
+        
 
 
         // determine the color for each attribute shape
@@ -370,7 +399,7 @@ var enGeno = class {
                 return "transparent";
             }
         }
-
+        
         function infantFill(a){
              if (a.show == true && a.attr) {
                  if(a.attr == "S")return "red";
@@ -406,11 +435,11 @@ var enGeno = class {
             console.log(JSON.stringify(a));
 
         }
-
+        
          function infantGeometry(a){
              if (a.attr) {
                if (a.attr == 'S') return slash;
-
+              
                 else return brsq;
             }
          }
@@ -463,32 +492,32 @@ var enGeno = class {
                 return "transparent";
 
         }
-this.diagram.nodeTemplateMap.add("I", // male
-            $(go.Node, "Vertical", {
+
+    var infantTemplate = $$(go.Node, "Vertical", {
                     locationSpot: go.Spot.Center,
                     locationObjectName: "ICON"
                 }, {
                     doubleClick: function (e, node) {
-                        doubleClickNode(e, node);
+                        // doubleClickNode(e, node);
                     },
                     click: function (e, node) {
-                            clickNode(e, node)
+                            // clickNode(e, node)
                         }
-
+                       
                 },
-                $(go.Panel, {
+                $$(go.Panel, {
                         name: "ICON"
                     },
-                    $(go.Shape, "Triangle", {
+                    $$(go.Shape, "Triangle", {
                         width: 40,
                         height: 40,
                         strokeWidth: 2,
                         fill: "white",
                         portId: ""
                     }),
-                    $(go.Panel, { // for each attribute show a Shape at a particular place in the overall square
-                            itemTemplate: $(go.Panel,
-                                $(go.Shape, {
+                    $$(go.Panel, { // for each attribute show a Shape at a particular place in the overall square
+                            itemTemplate: $$(go.Panel,
+                                $$(go.Shape, {
                                         stroke: null,
                                         strokeWidth: 0
                                     },
@@ -501,44 +530,95 @@ this.diagram.nodeTemplateMap.add("I", // male
                         new go.Binding("itemArray", "aobj")
                     )
                 ),
-                $(go.TextBlock, {
+                $$(go.TextBlock, {
                         textAlign: "center",
                         maxSize: new go.Size(80, NaN)
                     },
                     new go.Binding("text", "n"))
 
 
-            ));
+            );
+
+    var templmap = new go.Map("string", go.Node);
+    templmap.add("I", infantTemplate)
+    this.diagram.nodeTemplateMap = templmap
+
+// this.diagram.nodeTemplateMap.add("I", // male
+//             $$(go.Node, "Vertical", {
+//                     locationSpot: go.Spot.Center,
+//                     locationObjectName: "ICON"
+//                 }, {
+//                     doubleClick: function (e, node) {
+//                         // doubleClickNode(e, node);
+//                     },
+//                     click: function (e, node) {
+//                             clickNode(e, node)
+//                         }
+                       
+//                 },
+//                 $$(go.Panel, {
+//                         name: "ICON"
+//                     },
+//                     $$(go.Shape, "Triangle", {
+//                         width: 40,
+//                         height: 40,
+//                         strokeWidth: 2,
+//                         fill: "white",
+//                         portId: ""
+//                     }),
+//                     $$(go.Panel, { // for each attribute show a Shape at a particular place in the overall square
+//                             itemTemplate: $$(go.Panel,
+//                                 $$(go.Shape, {
+//                                         stroke: null,
+//                                         strokeWidth: 0
+//                                     },
+//                                     new go.Binding("fill", "", infantFill),
+//                                     new go.Binding("geometry", "", infantGeometry))
+//                             ),
+//                             margin: 1,
+//                     position: new go.Point(-5, 5)
+//                         },
+//                         new go.Binding("itemArray", "aobj")
+//                     )
+//                 ),
+//                 $$(go.TextBlock, {
+//                         textAlign: "center",
+//                         maxSize: new go.Size(80, NaN)
+//                     },
+//                     new go.Binding("text", "n"))
+
+
+//             ));
 
         // two different node templates, one for each sex,
         // named by the category value in the node data object
         this.diagram.nodeTemplateMap.add("M", // male
-            $(go.Node, "Vertical", {
+            $$(go.Node, "Vertical", {
                     locationSpot: go.Spot.Center,
                     locationObjectName: "ICON"
                 }, {
                     doubleClick: function (e, node) {
-                        doubleClickNode(e, node);
+                        // doubleClickNode(e, node);
                     },
                     click: function (e, node) {
-                            clickNode(e, node)
+                            // clickNode(e, node)
                         }
            ,contextMenu:this.contextNode
                         //this.setRightClickedNode // define a context menu for each node
                 },
-                $(go.Panel, {
+                $$(go.Panel, {
                         name: "ICON"
                     },
-                    $(go.Shape, "Square", {
+                    $$(go.Shape, "Square", {
                         width: 40,
                         height: 40,
                         strokeWidth: 2,
                         fill: "white",
                         portId: ""
                     }),
-                    $(go.Panel, { // for each attribute show a Shape at a particular place in the overall square
-                            itemTemplate: $(go.Panel,
-                                $(go.Shape, {
+                    $$(go.Panel, { // for each attribute show a Shape at a particular place in the overall square
+                            itemTemplate: $$(go.Panel,
+                                $$(go.Shape, {
                                         stroke: null,
                                         strokeWidth: 0
                                     },
@@ -551,16 +631,16 @@ this.diagram.nodeTemplateMap.add("I", // male
                     ),
 
 
-                    $(go.Panel, {
-                            itemTemplate: $(go.Panel,
-                                $(go.Shape, "Circle", {
+                    $$(go.Panel, {
+                            itemTemplate: $$(go.Panel,
+                                $$(go.Shape, "Circle", {
                                     width: 20,
                                     height: 20,
                                     stroke: null,
                                     strokeWidth: 0,
                                     fill: "white"
                                 }, new go.Binding("fill", "", ageFill)),
-                                $(go.TextBlock, {
+                                $$(go.TextBlock, {
                                         textAlign: "center",
                                         maxSize: new go.Size(80, NaN),
                                         position: new go.Point(3, 5)
@@ -574,7 +654,7 @@ this.diagram.nodeTemplateMap.add("I", // male
                         new go.Binding("itemArray", "age")
                     )
                 ),
-                $(go.TextBlock, {
+                $$(go.TextBlock, {
                         textAlign: "center",
                         maxSize: new go.Size(80, NaN)
                     },
@@ -585,31 +665,31 @@ this.diagram.nodeTemplateMap.add("I", // male
 
 
         this.diagram.nodeTemplateMap.add("F", // female
-            $(go.Node, "Vertical", {
+            $$(go.Node, "Vertical", {
                     locationSpot: go.Spot.Center,
                     locationObjectName: "ICON"
                 }, {
-                    doubleClick: doubleClickNode,
+                    // doubleClick: doubleClickNode,
                     click: function (e, node) {
-                            clickNode(e, node)
+                            // clickNode(e, node)
                         }
                 ,contextMenu:this.contextNode
                         // ,rightCl: this.setRightClickedNode
                 },
 
-                $(go.Panel, {
+                $$(go.Panel, {
                         name: "ICON"
                     },
-                    $(go.Shape, "Circle", {
+                    $$(go.Shape, "Circle", {
                         width: 40,
                         height: 40,
                         strokeWidth: 2,
                         fill: "white",
                         portId: ""
                     }),
-                    $(go.Panel, { // for each attribute show a Shape at a particular place in the overall circle
-                            itemTemplate: $(go.Panel,
-                                $(go.Shape, {
+                    $$(go.Panel, { // for each attribute show a Shape at a particular place in the overall circle
+                            itemTemplate: $$(go.Panel,
+                                $$(go.Shape, {
                                         stroke: null,
                                         strokeWidth: 0
                                     },
@@ -622,16 +702,16 @@ this.diagram.nodeTemplateMap.add("I", // male
                     ),
 
 
-                    $(go.Panel, {
-                            itemTemplate: $(go.Panel,
-                                $(go.Shape, "Circle", {
+                    $$(go.Panel, {
+                            itemTemplate: $$(go.Panel,
+                                $$(go.Shape, "Circle", {
                                     width: 20,
                                     height: 20,
                                     stroke: null,
                                     strokeWidth: 0,
                                     fill: "white"
                                 }, new go.Binding("fill", "", ageFill)),
-                                $(go.TextBlock, {
+                                $$(go.TextBlock, {
                                         textAlign: "center",
                                         maxSize: new go.Size(80, NaN),
                                         position: new go.Point(3, 5)
@@ -645,7 +725,7 @@ this.diagram.nodeTemplateMap.add("I", // male
                         new go.Binding("itemArray", "age")
                     )
                 ),
-                $(go.TextBlock, {
+                $$(go.TextBlock, {
                         textAlign: "center",
                         maxSize: new go.Size(80, NaN)
                     },
@@ -656,7 +736,7 @@ this.diagram.nodeTemplateMap.add("I", // male
 
         // the representation of each label node -- nothing shows on a Marriage L ink
         this.diagram.nodeTemplateMap.add("LinkLabel",
-            $(go.Node, {
+            $$(go.Node, {
                 selectable: false,
                 width: 1,
                 height: 1,
@@ -689,7 +769,7 @@ this.diagram.nodeTemplateMap.add("I", // male
             if (width === undefined) width = 1;
             if (cap === undefined) cap = "square";
             PathPatterns.add(name,
-                $(go.Shape, {
+                $$(go.Shape, {
                     geometryString: geostr,
                     fill: "transparent",
                     stroke: color,
@@ -739,9 +819,23 @@ this.diagram.nodeTemplateMap.add("I", // male
         definePathPattern("Herringbone", "M0 2 L2 4 0 6  M2 0 L4 2  M4 6 L2 8");
         definePathPattern("Sawtooth", "M0 3 L4 0 2 6 6 3");
 
+        
 
-        this.diagram.linkTemplate = // for parent-child relationships
-            $(go.Link, {
+
+        // this.diagram.linkTemplate = // for parent-child relationships
+        //     $$(go.Link, {
+        //             routing: go.Link.Orthogonal,
+        //             curviness: 10,
+        //             layerName: "Background",
+        //             selectable: false,
+        //             fromSpot: go.Spot.Bottom,
+        //             toSpot: go.Spot.Top
+        //         },
+        //         $$(go.Shape, {
+        //             strokeWidth: 2
+        //         })
+        //     );
+        var simpleLinkTemplate = $$(go.Link, {
                     routing: go.Link.Orthogonal,
                     curviness: 10,
                     layerName: "Background",
@@ -749,36 +843,50 @@ this.diagram.nodeTemplateMap.add("I", // male
                     fromSpot: go.Spot.Bottom,
                     toSpot: go.Spot.Top
                 },
-                $(go.Shape, {
+                $$(go.Shape, {
                     strokeWidth: 2
                 })
             );
 
-        this.diagram.linkTemplateMap.add("Marriage", // for marriage relationships
-            $(go.Link, {
+        var marriageLink = $$(go.Link, {
                     selectable: false
                 },
-                $(go.Shape, {
+                $$(go.Shape, {
                     strokeWidth: 2,
                     stroke: "darkgreen"
                 })
-            ));
+            );
+
+        var templLinkMap = new go.Map("string", go.Link);
+        templLinkMap.add("Marriage", marriageLink)
+        templLinkMap.add("", simpleLinkTemplate)
+        this.diagram.linkTemplateMap = templLinkMap;
+       
+        // this.diagram.linkTemplateMap.add("Marriage", // for marriage relationships
+        //     $$(go.Link, {
+        //             selectable: false
+        //         },
+        //         $$(go.Shape, {
+        //             strokeWidth: 2,
+        //             stroke: "darkgreen"
+        //         })
+        //     ));
 
         this.diagram.linkTemplateMap.add("relationship", // for marriage relationships
-            $(go.Link, go.Link.Bezier, // slightly curved, by default
+            $$(go.Link, go.Link.Bezier, // slightly curved, by default
                 {
                     isVisible: true,
                     layerName: "Background",
                     routing: go.Link.Normal,
                 }, // users can reshape the link route
 
-                $(go.Shape, {
+                $$(go.Shape, {
                     geometryString: "M0 0 L1 0  1 3  0 3  M0 6 L4 6  4 0  8 0  M8 3 L7 3  7 6  8 6",
                     fill: "transparent",
                     stroke: "black"
                 })
                 /*
-                  $(go.Shape, // the link's path shape
+                  $$(go.Shape, // the link's path shape
                       {
                           isPanelMain: true,
                           stroke: "transparent"
@@ -789,14 +897,14 @@ this.diagram.nodeTemplateMap.add("I", // male
                       new go.Binding("pathPattern", "patt", convertPathPatternToShape))
                       */
                 ,
-                $(go.Shape, // the link's path shape
+                $$(go.Shape, // the link's path shape
                     {
                         isPanelMain: true,
                         stroke: "transparent",
                         strokeWidth: 3
                     },
                     new go.Binding("pathPattern", "patt2", convertPathPatternToShape)),
-                $(go.Shape, // the "to" arrowhead
+                $$(go.Shape, // the "to" arrowhead
                     {
                         toArrow: "",
                         fill: null,
@@ -804,12 +912,12 @@ this.diagram.nodeTemplateMap.add("I", // male
                     },
                     new go.Binding("toArrow"),
                     new go.Binding("stroke", "patt", convertPathPatternToColor)),
-                $(go.TextBlock, // show the path object name
+                $$(go.TextBlock, // show the path object name
                     {
                         segmentOffset: new go.Point(0, 12)
                     },
                     new go.Binding("text", "patt")),
-                $(go.TextBlock, // show the second path object name, if any
+                $$(go.TextBlock, // show the second path object name, if any
                     {
                         segmentOffset: new go.Point(0, -12)
                     },
@@ -829,25 +937,23 @@ this.diagram.nodeTemplateMap.add("I", // male
 
     setupDiagram(focusId) {
         var array = this.getOriginalArray();
+        console.log(array)
         //********** change object ***********
-        array = array.filter(function (el) {
-          return el != null;
-        });
-        console.log(array);
 
-        var newdata = array;
-     //   console.log(array);
-
+        var newdata = [];
+        for(var key in array){
+            var obj = array[key];
+            newdata.push(obj);
+        }
+       console.log(newdata);
         for (var i = 0; i < newdata.length; i++) {
-
-            if(newdata[i]!= null && array[i]!= null ){
-                console.log(JSON.stringify(newdata[i]));
+            //   console.log(JSON.stringify(newdata[i]));
             if (newdata[i] && newdata[i].a) {
                 var str = newdata[i].a;
                 newdata[i].aobj = [];
                 for (var j = 0; j < str.length; j++) {
                     if (str[j] == 'S') {
-                        array[i].aobj.push({
+                        array["key"+newdata[i].key].aobj.push({
                             attr: str[j],
                             index: 17,
                             show: true
@@ -855,7 +961,7 @@ this.diagram.nodeTemplateMap.add("I", // male
                     } else {
 
 
-                        array[i].aobj.push({
+                        array["key"+newdata[i].key].aobj.push({
                             attr: str[j],
                             index: j + 1,
                             show: true
@@ -865,26 +971,29 @@ this.diagram.nodeTemplateMap.add("I", // male
                 }
             }
 
-            if (array[i].age) {
-                var a = {
-                    year: array[i].age,
+            if (array["key"+newdata[i].key]) {
+                if(array["key"+newdata[i].key].age){
+                    var a = {
+                    year: array["key"+newdata[i].key].age,
                     show: true
-                };
-                array[i].age = [a];
+                    };
+                    array["key"+newdata[i].key].age = [a];
+                }
             }
 
             //key must be integer
             if (newdata[i].m && typeof newdata[i].m == "string") array[i].m = parseInt(newdata[i].m);
             if (newdata[i].f && typeof newdata[i].m == "string") array[i].f = parseInt(newdata[i].f);
             if (newdata[i].cou && typeof newdata[i].cou == "string") {
-                array[i].cou = parseInt(newdata[i].cou);
+                array["key"+newdata[i].key].cou = parseInt(newdata[i].cou);
             } else if (newdata[i].cou && typeof newdata[i].cou == "object") {
                 for (var c = 0; c < newdata[i].cou.length; c++) {
-                    array[i].cou[c] = parseInt(newdata[i].cou[c]);
+                    array["key"+newdata[i].key].cou[c] = parseInt(newdata[i].cou[c]);
                 }
             }
-          }
         }
+        console.log(newdata)
+
 
       //  console.log(JSON.stringify(newdata));
        // console.log(array[1].n);
@@ -1098,6 +1207,32 @@ this.diagram.nodeTemplateMap.add("I", // male
 
 
 //***********************
+
+
+
+enGeno.prototype.setOriginalArray =  function(data) {
+
+            this.originArray = [];
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].m && typeof data[i].m == "string") data[i].m = parseInt(data[i].m);
+                if (data[i].f && typeof data[i].f == "string") {
+                    data[i].f = parseInt(data[i].f);
+                } else if (data[i].cou && typeof data[i].cou == "object") {
+                    for (var c = 0; c < data[i].cou.length; c++) {
+                        data[i].cou[c] = parseInt(data[i].cou[c]);
+                    }
+                }
+
+                this.originArray["key"+data[i].key] = JSON.parse(JSON.stringify(data[i]));
+
+            }
+            console.log(this.originArray)
+            //originArray.splice(0, 1);
+            return this.originArray;
+
+
+        }
+
 enGeno.prototype.copyJSON = function(obj){
   return JSON.parse(JSON.stringify(obj));
 }
@@ -1137,33 +1272,33 @@ enGeno.prototype.changeNodeData = function (node, obj) {
 
 //on righr click have a function
 enGeno.prototype.setContextNode = function () {
-
-   this.contextNode = $(go.Adornment, "Vertical", // that has one button
-        $("ContextMenuButton",
-            $(go.TextBlock, "add spouse"), {
-               click:contextFunction
+    parent = this
+   this.contextNode = $$(go.Adornment, "Vertical", // that has one button
+        $$("ContextMenuButton",
+            $$(go.TextBlock, "add spouse"), {
+               // click:parent.contextFunction 
             }
         ),
-        $("ContextMenuButton",
-            $(go.TextBlock, "add daughter"), {
-               click:contextFunction
+        $$("ContextMenuButton",
+            $$(go.TextBlock, "add daughter"), {
+               // click:parent.contextFunction 
             }
         ),
-        $("ContextMenuButton",
-            $(go.TextBlock, "add son"), {
-                click:contextFunction
+        $$("ContextMenuButton",
+            $$(go.TextBlock, "add son"), {
+                // click:parent.contextFunction 
             }
         ),
-        $("ContextMenuButton",
-            $(go.TextBlock, "remove Node"), {
-                click:contextFunction
+        $$("ContextMenuButton",
+            $$(go.TextBlock, "remove Node"), {
+                // click:parent.contextFunction 
             }
         )
 
         // more ContextMenuButtons would go here
     );
-
-
+    
+        
 
 }
 
@@ -1174,13 +1309,13 @@ enGeno.prototype.addNode = function (data) {
         var data = {
             key: 5,
             n: "NewNode",
-            s: F,
+            s: "F",
             m: 2,
             f: 3,
-            a: [B, H]
+            a: ["B", "H"]
         };
     }
-    this.array.push(data);
+    // this.array.push(data);
     this.pushObjInOriginalArray(data);
     this.diagram.model.addNodeData(data);
     part = this.diagram.findPartForData(data);
@@ -1270,7 +1405,7 @@ enGeno.prototype.addDaughter = function (node, data) {
 enGeno.prototype.addSpouse = function (node, data) {
 
  console.log("Before origin array = "+JSON.stringify(this.getOriginalArray()));
-
+    
     if(this.findMarriageArray(node.data.key).length >0 ) return null
     // var node = b.part.adornedPart;
     var data = data;
@@ -1369,7 +1504,7 @@ enGeno.prototype.removeNode = function (node) {
     /*
     var key = node.data.key;
     this.diagram.startTransaction("deleteNode");
-
+   
    var it = node.linksConnected;
     while(it.next()){
         var child = it.value;
@@ -1546,7 +1681,7 @@ enGeno.prototype.searchByKeyWord = function (keyword) {
     }
     //********** make img****************
 enGeno.prototype.makeImage = function (para1, para2) {
-
+   
     var db = this.diagram.documentBounds.copy();
     var boundswidth = db.width;
     var boundsheight = db.height;
@@ -1679,7 +1814,7 @@ enGeno.prototype.setupRelationship = function () {
 enGeno.prototype.export = function(filepath){
 
   var arr = this.getDataNodeToNewArray();
-	var txtFile = [];
+    var txtFile = [];
   //for every node
   for(var i=0 ;i<arr.length;i++){
     //every attribute in each node
