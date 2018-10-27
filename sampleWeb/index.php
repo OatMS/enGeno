@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php 
+<?php
 $_SESSION["importOrCreate"] = "import";
 
 
@@ -18,39 +18,39 @@ $_SESSION["importOrCreate"] = "import";
         <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     </head>
-    
+
     <body id="bodyindex">
        <div id="header">
            <img src="img/logo.png" id="logo">
        </div>
-       
+
        <div id="menuindex">
            <a href="create-1.php" onclick="setCreateType();" > <img class="btmenu" src="img/menubt-create.png"> </a><br><br>
-           
-           
-           
-           
+
+
+
+
            <a href="#" onclick="performClick('ButtonFile')"> <img class="btmenu"  src="img/menubt-txt.png" onclick="<? $_SESSION["importOrCreate"] = "import"; ?>"> </a><br><br>
            <input type="file" id="ButtonFile" onchange="openFile(event)" style="display:none"  >
        </div>
-        
-        
-        
-        
+
+
+
+
         <form id="setWay" action="editGenogram.php" method="get" >
             <input name="data" type="text" id="data" style="display:none" >
             <input name="startType" type="text" id="startType" style="display:none" >
             <input id="submit" type="submit"  style="display:none" >
-            
+
         </form>
-        
-        
-        
+
+
+
         <div id="result"> </div>
 
-        
+
     </body>
-    
+
 </html>
 
 
@@ -70,33 +70,36 @@ $_SESSION["importOrCreate"] = "import";
       // openFile(elem);
    }
 }
-               
-               
-               
+
+
+
                function openFile(event) {
-                 console.log("on open File");  
+                 console.log("on open File");
     var data=[];
    var text;
-  
+
     var input = event.target;
 //alert(input);
     var data=[];
-    
+
     var reader = new FileReader();
     reader.onload = function(){
       var text = reader.result;
-      var lines = text.split("\r\n");
-       
+      // console.log(text);
+      // var lines = text.split("\r\n");
+      var lines = text.match(/[^\r\n]+/g);;
+      // console.log(lines);
+
     for(var line = 0; line < lines.length; line++){
-        
+
      data.push(readByLine(lines[line]));
-       
+
     }
-       
+
     console.log("Start set data");
     //actionSend(data);
         setInput(data);
-    
+
     function readByLine(line){
         var attribute = line.split(',');
         var obj ={};
@@ -104,28 +107,28 @@ $_SESSION["importOrCreate"] = "import";
             var buddle = attribute[item].split(':');
             var key = buddle[0];
             var value = buddle[1]
-            
+
             //if Attribute a
             if(key == 'a'){
                 value = value.split('');
             }
-            
+
             obj[key] = value;
         }
         return obj;
-    
+
     }
-                                                                    
-        
+
+
     };
     reader.readAsText(input.files[0]);
-    
+
     console.log("Success read File");
-    
-                   
-                   
+
+
+
   };
-    
+
     function setInput(data){
         var input = document.getElementById('data');
         input.value = "'"+JSON.stringify(data)+"'";
@@ -133,15 +136,15 @@ $_SESSION["importOrCreate"] = "import";
         var submit =document.getElementById('submit');
         console.log("set input success");
        // console.log(input.value);
-        
+
         //set type start
         var startType = document.getElementById('startType');
         startType.value = "import";
-        
+
         submit.click();
-        
+
     }
-    
+
     function setCreateType(){
         var setWay = document.getElementById('setWay');
         setWay.action = "create-1.php";
@@ -150,7 +153,7 @@ $_SESSION["importOrCreate"] = "import";
         var submit =document.getElementById('submit');
          submit.click();
     }
-    
-    
-    
+
+
+
            </script>
